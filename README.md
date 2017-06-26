@@ -1,9 +1,12 @@
 # mips_sim
 2017 SJTU PPCA project
 
-2017-6-26
-ÔÄ¶ÁÁËhttp://www.cnblogs.com/thoupin/p/4018455.htmlÊÜÒæ·ËÇ³
-ÔÄ¶ÁÁËÖú½Ì¸øµÄpdf
-¼òµ¥»­ÁËÒ»ÏÂÏîÄ¿ÐèÒªµÄÀà£¬³õ²½ÈÏÊ¶ÁËÎå¼¶Á÷Ë®ÒÔ¼°hazard
-Ð´ÁËlineÀàÓÃÓÚÇø·ÖÃ¿ÐÐ
-Ð´ÁËmainº¯Êý²¿·Ö£¬È·¶¨ÁËÕû¸ö¿ò¼Ü
+[toc]
+
+##2017-6-26
+
+é˜…è¯»äº†http://www.cnblogs.com/thoupin/p/4018455.htmlå—ç›ŠåŒªæµ…
+é˜…è¯»äº†åŠ©æ•™ç»™çš„pdf
+ç®€å•ç”»äº†ä¸€ä¸‹é¡¹ç›®éœ€è¦çš„ç±»ï¼Œåˆæ­¥è®¤è¯†äº†äº”çº§æµæ°´ä»¥åŠhazard
+å†™äº†lineç±»ç”¨äºŽåŒºåˆ†æ¯è¡Œ
+å†™äº†mainå‡½æ•°éƒ¨åˆ†ï¼Œç¡®å®šäº†æ•´ä¸ªæ¡†æž¶
