@@ -29,5 +29,8 @@
     <ClInclude Include="program.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Token.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

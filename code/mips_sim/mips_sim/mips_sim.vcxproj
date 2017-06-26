@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="line.hpp" />
     <ClInclude Include="program.hpp" />
+    <ClInclude Include="Token.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
