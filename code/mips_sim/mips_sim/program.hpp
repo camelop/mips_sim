@@ -20,10 +20,6 @@ public:
 		string line;
 		unsigned long long mem = 0;
 		while (getline(fin, line)) {
-			int loc = line.find('#', 0);
-			if (loc != string::npos) {
-				line = line.substr(0, loc);
-			}
 			lines.push_back(parse(line, mem));
 		}
 		int cnt = 0;
@@ -108,14 +104,19 @@ public:
 
 	void eatComma(string& line, int& t) {
 		while (!isLetter(line[t]) && !isSpecial(line[t])
-			&& line[t] != ':' && t<line.length()) ++t;
+			&& line[t] != ':' && line[t] != '#' && t<line.length()) ++t;
+		if (t < line.length() && line[t] == '#') t = line.length();
 	}
 
 	string getToken(string& line, int& t) {
 		while (!isLetter(line[t]) && !isSpecial(line[t]) 
-			&& line[t] != ',' &&line[t] != ':' 
+			&& line[t] != ',' && line[t] != ':' && line[t] != '#'
 			&& t<line.length()) ++t;
 		if (t == line.length()) return "";
+		if (line[t] == '#') {
+			t = line.length();
+			return "";
+		}
 		string ret = "";
 		while (isLetter(line[t]) || isSpecial(line[t])) {
 			ret = ret + line[t];

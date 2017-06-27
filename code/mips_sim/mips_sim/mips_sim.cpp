@@ -14,6 +14,7 @@ using namespace std;
 map<string, Line::Line_type> findType;
 map<string, Data::Data_type> find_dType;
 RAM ram;
+const int Memory = 4 * 1024 * 1024;
 
 void init() {
 
@@ -112,7 +113,7 @@ int main(int argc, char* argv[]) {
 	init();
 
 #ifdef MIPS_TEST1
-	ifstream mipsIn1("array_test1-mahaojun.s");
+	ifstream mipsIn1("spill2-5100379110-daibo.s");
 	Program pg1(mipsIn1);
 	cout << pg1;
 	return 0;

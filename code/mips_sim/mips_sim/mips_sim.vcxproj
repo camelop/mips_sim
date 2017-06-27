@@ -148,6 +148,7 @@
     <ClCompile Include="mips_sim.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CPU.hpp" />
     <ClInclude Include="line.hpp" />
     <ClInclude Include="program.hpp" />
     <ClInclude Include="RAM.hpp" />
