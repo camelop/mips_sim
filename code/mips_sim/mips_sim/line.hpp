@@ -1,24 +1,30 @@
 #ifndef littleround_MIPS_line
 #define littleround_MIPS_line
 #include<string>
+#include<vector>
 
 using namespace std;
 
 class Line {
-friend class Program;
-protected:
+	friend class Program; friend ostream& operator <<(ostream& fout, const Program& pg);
+public:
 	enum Line_type {
 		tLabel, tInstruction, tData, tFrame
-	} type;
+	};
+protected:
+	Line_type type;
 	unsigned int id;
 public:
 	Line() {}
 	Line(Line_type type) :type(type) {}
 	Line(unsigned int id):id(id) {}
 	Line(Line_type type, unsigned int id) :type(type), id(id) {}
+
+	virtual ~Line() {};
 };
 
 class Label :public Line {
+	friend class Program;
 protected:
 	string name;
 public:
@@ -27,16 +33,18 @@ public:
 };
 
 class Instruction : public Line {
+	friend class Program;
 protected:
 	string ins;
 	char argc;
-	string arg[3];
+	string argv[3];
 public:
 	Instruction() :Line(tInstruction) {}
 	Instruction(unsigned int id) :Line(tInstruction, id) {}
 };
 
 class Frame : public Line {
+	friend class Program;
 protected:
 	bool isData;
 public:
@@ -45,12 +53,17 @@ public:
 };
 
 class Data : public Line {
-protected:
+	friend class RAM;
+	friend class Program;
+public:
 	enum Data_type {
-		align, ascii, byte, half, word, space
-	} dType;
-	unsigned int location;
-	unsigned int length;
+		align, ascii, asciiz, byte, half, word, space
+	};
+protected:
+	Data_type dType;
+	unsigned long long location;
+	unsigned long long length;
+	vector<string> arg;
 public:
 	Data() :Line(tData) {}
 	Data(unsigned int id) :Line(tData, id) {}
