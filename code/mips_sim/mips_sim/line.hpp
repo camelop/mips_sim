@@ -25,6 +25,7 @@ public:
 
 class Label :public Line {
 	friend class Program;
+	friend ostream& operator <<(ostream& fout, const Program& pg);
 protected:
 	string name;
 public:
@@ -33,7 +34,8 @@ public:
 };
 
 class Instruction : public Line {
-	friend class Program;
+	friend class Program; 
+	friend ostream& operator <<(ostream& fout, const Program& pg);
 protected:
 	string ins;
 	char argc;
@@ -45,6 +47,7 @@ public:
 
 class Frame : public Line {
 	friend class Program;
+	friend ostream& operator <<(ostream& fout, const Program& pg);
 protected:
 	bool isData;
 public:
@@ -55,6 +58,7 @@ public:
 class Data : public Line {
 	friend class RAM;
 	friend class Program;
+	friend ostream& operator <<(ostream& fout, const Program& pg);
 public:
 	enum Data_type {
 		align, ascii, asciiz, byte, half, word, space

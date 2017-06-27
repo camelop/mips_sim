@@ -1,0 +1,679 @@
+0       Frame   DATA
+1       Data    0 4
+2       Label   _static_0
+3       Data    4 2
+4       Data    6 2
+5       Data    8 4
+6       Label   _static_2
+7       Data    12 1
+8       Data    13 3
+9       Label   _static_1
+10      Data    16 4
+11      Frame   DATA
+12      Label   _buffer
+13      Data    20 4
+14      Frame   TEXT
+15      Label   _buffer_init
+16      Instruction     li
+17      Instruction     li
+18      Instruction     syscall
+19      Instruction     sw
+20      Instruction     jr
+21      Frame   TEXT
+22      Label   main
+23      Instruction     jal
+24      Instruction     add
+25      Instruction     li
+26      Instruction     add
+27      Instruction     mul
+28      Instruction     li
+29      Instruction     move
+30      Label
+31      Instruction     syscall
+32      Instruction     sw
+33      Instruction     li
+34      Instruction     lw
+35      Instruction     sw
+36      Instruction     add
+37      Instruction     sw
+38      Instruction     jal
+39      Instruction     move
+40      Instruction     li
+41      Instruction     syscall
+42      Label   _func_____built_in_string_less
+43      Instruction     sw
+44      Instruction     add
+45      Instruction     add
+46      Instruction     sw
+47      Instruction     lw
+48      Instruction     sub
+49      Instruction     lw
+50      Instruction     lw
+51      Instruction     sub
+52      Instruction     lw
+53      Instruction     sw
+54      Instruction     ble
+55      Instruction     lw
+56      Instruction     sub
+57      Instruction     lw
+58      Instruction     sw
+59      Label   _end_if_0
+60      Instruction     li
+61      Instruction     sw
+62      Label   _begin_loop_0
+63      Instruction     lw
+64      Instruction     lw
+65      Instruction     bge
+66      Instruction     lw
+67      Instruction     lw
+68      Instruction     add
+69      Instruction     lb
+70      Instruction     lw
+71      Instruction     add
+72      Instruction     lb
+73      Instruction     sw
+74      Instruction     sw
+75      Instruction     beq
+76      Instruction     lw
+77      Instruction     lw
+78      Instruction     slt
+79      Instruction     move
+80      Instruction     sw
+81      Instruction     b
+82      Label   _end_if_1
+83      Label   _continue_loop0
+84      Instruction     lw
+85      Instruction     add
+86      Instruction     sw
+87      Instruction     b
+88      Label   _end_loop_0
+89      Instruction     lw
+90      Instruction     sub
+91      Instruction     lw
+92      Instruction     lw
+93      Instruction     slt
+94      Instruction     move
+95      Instruction     sw
+96      Instruction     b
+97      Label   _end_func_____built_in_string_less
+98      Instruction     lw
+99      Instruction     add
+100     Instruction     lw
+101     Instruction     jr
+102     Label
+103     Label   _func_____built_in_string_equal
+104     Instruction     sw
+105     Instruction     add
+106     Instruction     add
+107     Instruction     sw
+108     Instruction     lw
+109     Instruction     sub
+110     Instruction     lw
+111     Instruction     lw
+112     Instruction     sub
+113     Instruction     lw
+114     Instruction     beq
+115     Instruction     move
+116     Instruction     b
+117     Label   _end_if_2
+118     Instruction     lw
+119     Instruction     sub
+120     Instruction     lw
+121     Instruction     li
+122     Instruction     sw
+123     Instruction     sw
+124     Label   _begin_loop_1
+125     Instruction     lw
+126     Instruction     lw
+127     Instruction     bge
+128     Instruction     lw
+129     Instruction     lw
+130     Instruction     add
+131     Instruction     lb
+132     Instruction     lw
+133     Instruction     add
+134     Instruction     lb
+135     Instruction     beq
+136     Instruction     move
+137     Instruction     b
+138     Label   _end_if_3
+139     Label   _continue_loop1
+140     Instruction     lw
+141     Instruction     add
+142     Instruction     sw
+143     Instruction     b
+144     Label   _end_loop_1
+145     Instruction     li
+146     Instruction     move
+147     Instruction     b
+148     Label   _end_func_____built_in_string_equal
+149     Instruction     lw
+150     Instruction     add
+151     Instruction     lw
+152     Instruction     jr
+153     Label
+154     Label   _func_____built_in_string_inequal
+155     Instruction     sw
+156     Instruction     add
+157     Instruction     add
+158     Instruction     sw
+159     Instruction     lw
+160     Instruction     sub
+161     Instruction     lw
+162     Instruction     lw
+163     Instruction     sub
+164     Instruction     lw
+165     Instruction     beq
+166     Instruction     li
+167     Instruction     move
+168     Instruction     b
+169     Label   _end_if_4
+170     Instruction     lw
+171     Instruction     sub
+172     Instruction     lw
+173     Instruction     li
+174     Instruction     sw
+175     Instruction     sw
+176     Label   _begin_loop_2
+177     Instruction     lw
+178     Instruction     lw
+179     Instruction     bge
+180     Instruction     lw
+181     Instruction     lw
+182     Instruction     add
+183     Instruction     lb
+184     Instruction     lw
+185     Instruction     add
+186     Instruction     lb
+187     Instruction     beq
+188     Instruction     li
+189     Instruction     move
+190     Instruction     b
+191     Label   _end_if_5
+192     Label   _continue_loop2
+193     Instruction     lw
+194     Instruction     add
+195     Instruction     sw
+196     Instruction     b
+197     Label   _end_loop_2
+198     Instruction     move
+199     Instruction     b
+200     Label   _end_func_____built_in_string_inequal
+201     Instruction     lw
+202     Instruction     add
+203     Instruction     lw
+204     Instruction     jr
+205     Label
+206     Label   _func_____built_in_string_greater
+207     Instruction     sw
+208     Instruction     add
+209     Instruction     add
+210     Instruction     sw
+211     Label
+212     Instruction     lw
+213     Instruction     sw
+214     Label
+215     Instruction     lw
+216     Instruction     sw
+217     Label
+218     Instruction     jal
+219     Instruction     sw
+220     Instruction     lw
+221     Instruction     move
+222     Instruction     b
+223     Label   _end_func_____built_in_string_greater
+224     Instruction     lw
+225     Instruction     add
+226     Instruction     lw
+227     Instruction     jr
+228     Label
+229     Label   _func_____built_in_string_less_equal
+230     Instruction     sw
+231     Instruction     add
+232     Instruction     add
+233     Instruction     sw
+234     Instruction     lw
+235     Instruction     sub
+236     Instruction     lw
+237     Instruction     lw
+238     Instruction     sub
+239     Instruction     lw
+240     Instruction     sw
+241     Instruction     ble
+242     Instruction     lw
+243     Instruction     sub
+244     Instruction     lw
+245     Instruction     sw
+246     Label   _end_if_6
+247     Instruction     li
+248     Instruction     sw
+249     Label   _begin_loop_3
+250     Instruction     lw
+251     Instruction     lw
+252     Instruction     bge
+253     Instruction     lw
+254     Instruction     lw
+255     Instruction     add
+256     Instruction     lb
+257     Instruction     lw
+258     Instruction     add
+259     Instruction     lb
+260     Instruction     sw
+261     Instruction     sw
+262     Instruction     beq
+263     Instruction     lw
+264     Instruction     lw
+265     Instruction     slt
+266     Instruction     move
+267     Instruction     sw
+268     Instruction     b
+269     Label   _end_if_7
+270     Label   _continue_loop3
+271     Instruction     lw
+272     Instruction     add
+273     Instruction     sw
+274     Instruction     b
+275     Label   _end_loop_3
+276     Instruction     lw
+277     Instruction     sub
+278     Instruction     lw
+279     Instruction     lw
+280     Instruction     sub
+281     Instruction     lw
+282     Instruction     sle
+283     Instruction     move
+284     Instruction     sw
+285     Instruction     b
+286     Label   _end_func_____built_in_string_less_equal
+287     Instruction     lw
+288     Instruction     add
+289     Instruction     lw
+290     Instruction     jr
+291     Label
+292     Label   _func_____built_in_string_greater_equal
+293     Instruction     sw
+294     Instruction     add
+295     Instruction     add
+296     Instruction     sw
+297     Label
+298     Instruction     lw
+299     Instruction     sw
+300     Label
+301     Instruction     lw
+302     Instruction     sw
+303     Label
+304     Instruction     jal
+305     Instruction     sw
+306     Instruction     lw
+307     Instruction     move
+308     Instruction     b
+309     Label   _end_func_____built_in_string_greater_equal
+310     Instruction     lw
+311     Instruction     add
+312     Instruction     lw
+313     Instruction     jr
+314     Label
+315     Label   _func_____built_in_println
+316     Instruction     sw
+317     Instruction     add
+318     Instruction     add
+319     Instruction     sw
+320     Label
+321     Instruction     lw
+322     Instruction     li
+323     Instruction     move
+324     Label
+325     Instruction     syscall
+326     Instruction     la
+327     Instruction     move
+328     Instruction     li
+329     Instruction     move
+330     Label
+331     Instruction     syscall
+332     Label   _end_func_____built_in_println
+333     Instruction     lw
+334     Instruction     add
+335     Instruction     lw
+336     Instruction     jr
+337     Label
+338     Label   _func_main
+339     Instruction     sw
+340     Instruction     add
+341     Instruction     add
+342     Instruction     sw
+343     Instruction     lw
+344     Instruction     sub
+345     Instruction     lw
+346     Instruction     add
+347     Instruction     mul
+348     Instruction     li
+349     Instruction     move
+350     Instruction     sw
+351     Instruction     syscall
+352     Instruction     sw
+353     Instruction     lw
+354     Instruction     lw
+355     Instruction     sw
+356     Instruction     add
+357     Instruction     li
+358     Instruction     sw
+359     Instruction     sw
+360     Label   _begin_loop_4
+361     Instruction     lw
+362     Instruction     sub
+363     Instruction     lw
+364     Instruction     lw
+365     Instruction     bge
+366     Instruction     lw
+367     Instruction     mul
+368     Instruction     lw
+369     Instruction     add
+370     Instruction     sw
+371     Instruction     li
+372     Instruction     syscall
+373     Instruction     sw
+374     Instruction     lw
+375     Instruction     mul
+376     Instruction     lw
+377     Instruction     add
+378     Instruction     lw
+379     Instruction     sw
+380     Label   _continue_loop4
+381     Instruction     lw
+382     Instruction     add
+383     Instruction     move
+384     Instruction     sw
+385     Instruction     b
+386     Label   _end_loop_4
+387     Instruction     li
+388     Instruction     sw
+389     Label   _begin_loop_5
+390     Instruction     lw
+391     Instruction     sub
+392     Instruction     lw
+393     Instruction     lw
+394     Instruction     bge
+395     Instruction     lw
+396     Instruction     mul
+397     Instruction     lw
+398     Instruction     add
+399     Instruction     lw
+400     Instruction     sw
+401     Label
+402     Instruction     jal
+403     Instruction     sw
+404     Label
+405     Instruction     lw
+406     Instruction     li
+407     Instruction     move
+408     Label
+409     Instruction     syscall
+410     Label   _continue_loop5
+411     Instruction     lw
+412     Instruction     add
+413     Instruction     move
+414     Instruction     sw
+415     Instruction     b
+416     Label   _end_loop_5
+417     Instruction     la
+418     Instruction     move
+419     Instruction     li
+420     Instruction     move
+421     Label
+422     Instruction     syscall
+423     Label
+424     Instruction     la
+425     Instruction     li
+426     Instruction     move
+427     Label
+428     Instruction     syscall
+429     Instruction     lw
+430     Instruction     li
+431     Instruction     sw
+432     Instruction     sw
+433     Label   _begin_loop_6
+434     Instruction     lw
+435     Instruction     sub
+436     Instruction     lw
+437     Instruction     lw
+438     Instruction     bge
+439     Instruction     lw
+440     Instruction     mul
+441     Instruction     lw
+442     Instruction     add
+443     Instruction     lw
+444     Instruction     sw
+445     Label
+446     Instruction     jal
+447     Instruction     sw
+448     Label
+449     Instruction     lw
+450     Instruction     li
+451     Instruction     move
+452     Label
+453     Instruction     syscall
+454     Label   _continue_loop6
+455     Instruction     lw
+456     Instruction     add
+457     Instruction     move
+458     Instruction     sw
+459     Instruction     b
+460     Label   _end_loop_6
+461     Label   _end_func_main
+462     Instruction     lw
+463     Instruction     add
+464     Instruction     lw
+465     Instruction     jr
+466     Label
+467     Frame   TEXT
+468     Label   _string_copy
+469     Label   _begin_string_copy
+470     Instruction     lb
+471     Instruction     beqz
+472     Instruction     sb
+473     Instruction     add
+474     Instruction     add
+475     Instruction     j
+476     Label   _exit_string_copy
+477     Instruction     sb
+478     Instruction     jr
+479     Label
+480     Label   _func_____built_in_substring
+481     Instruction     lw
+482     Instruction     lw
+483     Instruction     lw
+484     Instruction     subu
+485     Instruction     sw
+486     Label
+487     Instruction     move
+488     Label
+489     Instruction     sub
+490     Instruction     add
+491     Instruction     add
+492     Instruction     li
+493     Instruction     syscall
+494     Instruction     sw
+495     Instruction     add
+496     Label
+497     Instruction     add
+498     Instruction     add
+499     Instruction     lb
+500     Instruction     sb
+501     Instruction     move
+502     Instruction     move
+503     Instruction     jal
+504     Instruction     move
+505     Instruction     sb
+506     Label
+507     Instruction     lw
+508     Instruction     addu
+509     Instruction     jr
+510     Label
+511     Label   _count_string_length
+512     Instruction     move
+513     Label
+514     Label   _begin_count_string_length
+515     Instruction     lb
+516     Instruction     beqz
+517     Instruction     add
+518     Instruction     j
+519     Label
+520     Label   _exit_count_string_length
+521     Instruction     sub
+522     Instruction     jr
+523     Label
+524     Label   _func_____built_in_getString
+525     Instruction     subu
+526     Instruction     sw
+527     Label
+528     Instruction     lw
+529     Instruction     li
+530     Instruction     li
+531     Instruction     syscall
+532     Label
+533     Instruction     jal
+534     Label
+535     Instruction     move
+536     Instruction     add
+537     Instruction     li
+538     Instruction     syscall
+539     Instruction     sw
+540     Instruction     add
+541     Instruction     lw
+542     Instruction     move
+543     Instruction     move
+544     Instruction     jal
+545     Instruction     move
+546     Label
+547     Instruction     lw
+548     Instruction     addu
+549     Instruction     jr
+550     Label
+551     Label   _func_____built_in_parseInt
+552     Instruction     lw
+553     Instruction     li
+554     Instruction     move
+555     Instruction     li
+556     Label
+557     Label   _count_number_pos
+558     Instruction     lb
+559     Instruction     bgt
+560     Instruction     blt
+561     Instruction     add
+562     Instruction     j
+563     Label
+564     Label   _begin_parse_int
+565     Instruction     sub
+566     Label
+567     Label   _parsing_int
+568     Instruction     blt
+569     Instruction     lb
+570     Instruction     sub
+571     Instruction     mul
+572     Instruction     add
+573     Instruction     mul
+574     Instruction     sub
+575     Instruction     j
+576     Label
+577     Label   _finish_parse_int
+578     Instruction     jr
+579     Label
+580     Label   _func_____built_in_string_concatenate
+581     Instruction     lw
+582     Instruction     lw
+583     Instruction     subu
+584     Instruction     sw
+585     Label
+586     Instruction     move
+587     Instruction     move
+588     Label
+589     Instruction     lw
+590     Instruction     lw
+591     Instruction     add
+592     Instruction     add
+593     Instruction     li
+594     Instruction     syscall
+595     Instruction     sw
+596     Instruction     add
+597     Instruction     move
+598     Label
+599     Instruction     move
+600     Instruction     move
+601     Instruction     jal
+602     Label
+603     Instruction     move
+604     Instruction     add
+605     Label
+606     Instruction     jal
+607     Label
+608     Instruction     move
+609     Instruction     lw
+610     Instruction     addu
+611     Instruction     jr
+612     Label
+613     Label   _func_____built_in_toString
+614     Instruction     lw
+615     Instruction     li
+616     Instruction     bgez
+617     Instruction     li
+618     Instruction     neg
+619     Label   _skip_set_less_than_zero
+620     Instruction     beqz
+621     Label
+622     Instruction     li
+623     Instruction     move
+624     Instruction     move
+625     Instruction     li
+626     Label
+627     Label   _begin_count_digit
+628     Instruction     div
+629     Instruction     mflo
+630     Instruction     mfhi
+631     Instruction     bgtz
+632     Instruction     bgtz
+633     Instruction     j
+634     Label   _not_yet
+635     Instruction     add
+636     Instruction     move
+637     Instruction     j
+638     Label
+639     Label   _yet
+640     Instruction     beqz
+641     Instruction     add
+642     Label   _skip_reserve_neg
+643     Instruction     add
+644     Instruction     li
+645     Instruction     syscall
+646     Instruction     sw
+647     Instruction     add
+648     Instruction     add
+649     Instruction     sb
+650     Instruction     sub
+651     Label
+652     Label   _continue_toString
+653     Instruction     div
+654     Instruction     mfhi
+655     Instruction     add
+656     Instruction     sb
+657     Instruction     sub
+658     Instruction     mflo
+659     Label
+660     Instruction     bnez
+661     Label
+662     Instruction     beqz
+663     Instruction     li
+664     Instruction     sb
+665     Label   _skip_place_neg
+666     Label
+667     Instruction     jr
+668     Label
+669     Label   _set_zero
+670     Instruction     li
+671     Instruction     li
+672     Instruction     syscall
+673     Instruction     li
+674     Instruction     sw
+675     Instruction     add
+676     Instruction     li
+677     Instruction     sb
+678     Instruction     jr

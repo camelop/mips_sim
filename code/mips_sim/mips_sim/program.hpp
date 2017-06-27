@@ -20,6 +20,10 @@ public:
 		string line;
 		unsigned long long mem = 0;
 		while (getline(fin, line)) {
+			int loc = line.find('#', 0);
+			if (loc != string::npos) {
+				line = line.substr(0, loc);
+			}
 			lines.push_back(parse(line, mem));
 		}
 		int cnt = 0;
@@ -31,7 +35,7 @@ public:
 		for (auto i : lines) delete i;
 	}
 
-	Line* parse(string& line, unsigned long long mem) {
+	Line* parse(string& line, unsigned long long &mem) {
 		int t = 0;
 		string s;
 		s = getToken(line, t);
@@ -127,10 +131,11 @@ public:
 	}
 
 	string getString(string& line, int& t) {
-		while (line[t] != '\n' && line[t] != '\r' && line[t] != '\"') ++t;
-		if (line[t] == '\n' || line[t] == '\r') return "";
+		while (line[t] != '\n' && line[t] != '\r' && line[t] != '\"' && t<line.length()) ++t;
+		if (t == line.length() || line[t] == '\n' || line[t] == '\r') return "";
 		bool escape = false;
 		string ret = "";
+		++t;
 		while (line[t] != '\"' || (line[t] == '\"' && escape)) {
 			if (escape) {
 				escape = false;
@@ -188,7 +193,19 @@ public:
 		dis[2] = "Data";
 		dis[3] = "Frame";
 		for (auto i : pg.lines) {
-			fout << dis[i->type] <<endl;
+			fout << i->id<<'\t'<<dis[i->type]<<'\t';
+			if (i->type == 0) {
+				cout << ((Label*) i)->name << endl;
+			}
+			if (i->type == 1) {
+				cout << ((Instruction*)i)->ins << endl;
+			}
+			if (i->type == 2) {
+				cout << ((Data*)i)->location<< ' ' <<((Data*)i)->length << endl;
+			}
+			if (i->type == 3) {
+				if (((Frame*)i)->isData) cout << "DATA" << endl; else cout << "TEXT" << endl;
+			}
 		}
 		return fout;
 	}
