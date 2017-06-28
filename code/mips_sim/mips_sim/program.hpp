@@ -74,7 +74,7 @@ public:
 						s = getToken(line, t);
 					}
 				}
-				nw->length = ram.distribute(mem, *nw);
+				nw->length = distribute(mem, *nw);
 				return nw;
 			}
 			case Line::Line_type::tFrame: {
