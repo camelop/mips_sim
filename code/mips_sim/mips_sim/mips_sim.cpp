@@ -13,7 +13,6 @@ using namespace std;
 
 map<string, Line::Line_type> findType;
 map<string, Data::Data_type> find_dType;
-RAM ram;
 const int Memory = 4 * 1024 * 1024;
 
 void init() {

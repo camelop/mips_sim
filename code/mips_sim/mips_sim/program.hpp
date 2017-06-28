@@ -7,7 +7,6 @@
 #include "RAM.hpp"
 using namespace std;
 
-extern RAM ram;
 extern map<string, Line::Line_type> findType;
 extern map<string, Data::Data_type> find_dType;
 
