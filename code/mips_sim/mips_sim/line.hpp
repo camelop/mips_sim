@@ -62,6 +62,7 @@ class Data : public Line {
 	friend unsigned long long 
 		distribute(unsigned long long &mem, const Data& d);
 	friend class Program;
+	friend class CPU;
 	friend ostream& operator <<(ostream& fout, const Program& pg);
 public:
 	enum Data_type {

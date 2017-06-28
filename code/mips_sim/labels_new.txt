@@ -677,4 +677,3 @@
 677     Instruction     li: $a0 48
 678     Instruction     sb: $a0 0($v0)
 679     Instruction     jr: $ra
-请按任意键继续. . .

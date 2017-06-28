@@ -17,10 +17,101 @@ set<string> label_1_sheet;
 set<string> label_2_sheet;
 set<string> label_2_check_sheet;
 set<string> label_3_sheet;
+set<string> type_o_i_i_sheet;
+
+map<string, int> idReg;
 
 const int Memory = 4 * 1024 * 1024;
 
 void init() {
+	//init idReg
+	idReg["$0"] = 0;
+	idReg["$1"] = 1;
+	idReg["$2"] = 2;
+	idReg["$3"] = 3;
+	idReg["$4"] = 4;
+	idReg["$5"] = 5;
+	idReg["$6"] = 6;
+	idReg["$7"] = 7;
+	idReg["$8"] = 8;
+	idReg["$9"] = 9;
+	idReg["$10"] = 10;
+	idReg["$11"] = 11;
+	idReg["$12"] = 12;
+	idReg["$13"] = 13;
+	idReg["$14"] = 14;
+	idReg["$15"] = 15;
+	idReg["$16"] = 16;
+	idReg["$17"] = 17;
+	idReg["$18"] = 18;
+	idReg["$19"] = 19;
+	idReg["$20"] = 20;
+	idReg["$21"] = 21;
+	idReg["$22"] = 22;
+	idReg["$23"] = 23;
+	idReg["$24"] = 24;
+	idReg["$25"] = 25;
+	idReg["$26"] = 26;
+	idReg["$27"] = 27;
+	idReg["$28"] = 28;
+	idReg["$29"] = 29;
+	idReg["$30"] = 30;
+	idReg["$31"] = 31;
+	idReg["$32"] = 32;
+	idReg["$33"] = 33;
+
+	idReg["$zero"] = 0;
+	idReg["$at"] = 1;
+	idReg["$v0"] = 2;
+	idReg["$v1"] = 3;
+	idReg["$a0"] = 4;
+	idReg["$a1"] = 5;
+	idReg["$a2"] = 6;
+	idReg["$a3"] = 7;
+	idReg["$t0"] = 8;
+	idReg["$t1"] = 9;
+	idReg["$t2"] = 10;
+	idReg["$t3"] = 11;
+	idReg["$t4"] = 12;
+	idReg["$t5"] = 13;
+	idReg["$t6"] = 14;
+	idReg["$t7"] = 15;
+	idReg["$s0"] = 16;
+	idReg["$s1"] = 17;
+	idReg["$s2"] = 18;
+	idReg["$s3"] = 19;
+	idReg["$s4"] = 20;
+	idReg["$s5"] = 21;
+	idReg["$s6"] = 22;
+	idReg["$s7"] = 23;
+	idReg["$t8"] = 24;
+	idReg["$t9"] = 25;
+	idReg["$k0"] = 26;
+	idReg["$k1"] = 27;
+	idReg["$gp"] = 28;
+	idReg["$sp"] = 29;
+	idReg["$s8"] = 30;
+	idReg["$fp"] = 30;
+	idReg["$ra"] = 31;
+
+	//init type_o_i_i_sheet
+	type_o_i_i_sheet.insert("add");
+	type_o_i_i_sheet.insert("addu");
+	type_o_i_i_sheet.insert("addiu");
+	type_o_i_i_sheet.insert("sub");
+	type_o_i_i_sheet.insert("subu");
+	type_o_i_i_sheet.insert("div");
+	type_o_i_i_sheet.insert("xor");
+	type_o_i_i_sheet.insert("xoru");
+	type_o_i_i_sheet.insert("rem");
+	type_o_i_i_sheet.insert("remu");
+	type_o_i_i_sheet.insert("seq");
+	type_o_i_i_sheet.insert("sge");
+	type_o_i_i_sheet.insert("sgt");
+	type_o_i_i_sheet.insert("sle");
+	type_o_i_i_sheet.insert("slt");
+	type_o_i_i_sheet.insert("sne");
+
 	//init label_1_sheet
 	label_1_sheet.insert("j");
 	label_1_sheet.insert("b");

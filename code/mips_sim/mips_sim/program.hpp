@@ -95,6 +95,7 @@ class Program {
 	friend class CPU;
 private:
 	vector<Line*> lines;
+	int entry;
 public:
 	Program(istream& fin) {
 		fin.seekg(0, ios::beg);
@@ -185,13 +186,13 @@ public:
 
 	void eatComma(string& line, int& t) {
 		while (!isLetter(line[t]) && !isSpecial(line[t])
-			&& line[t] != ':' && line[t] != '#' && t<line.length()) ++t;
+			&& line[t] != '#' && t<line.length()) ++t;
 		if (t < line.length() && line[t] == '#' ) t = line.length();
 	}
 
 	string getToken(string& line, int& t) {
 		while (!isLetter(line[t]) && !isSpecial(line[t]) 
-			&& line[t] != ',' && line[t] != ':' && line[t] != '#'
+			&& line[t] != ',' && line[t] != '#'
 			&& t<line.length()) ++t;
 		if (t == line.length()) return "";
 		if (line[t] == '#') {
@@ -204,7 +205,8 @@ public:
 			++t;
 		}
 		if (ret == "") {
-			while (line[t] == ',' || line[t] == ':') {
+			while (line[t] == ',') {
+				throw(-1); //gramma mistake
 				ret = ret + line[t];
 				++t;
 			}
@@ -277,18 +279,18 @@ public:
 		for (auto i : pg.lines) {
 			fout << i->id<<'\t'<<dis[i->type]<<'\t';
 			if (i->type == 0) {
-				cout << ((Label*) i)->name << endl;
+				fout << ((Label*) i)->name << endl;
 			}
 			if (i->type == 1) {
-				cout << ((Instruction*)i)->ins << ":";
-				for (auto j : ((Instruction*)i)->arg) cout << ' ' << j;
-				cout << endl;
+				fout << ((Instruction*)i)->ins << ":";
+				for (auto j : ((Instruction*)i)->arg) fout << ' ' << j;
+				fout << endl;
 			}
 			if (i->type == 2) {
-				cout << ((Data*)i)->location<< ' ' <<((Data*)i)->length << endl;
+				fout << ((Data*)i)->location<< ' ' <<((Data*)i)->length << endl;
 			}
 			if (i->type == 3) {
-				if (((Frame*)i)->isData) cout << "DATA" << endl; else cout << "TEXT" << endl;
+				if (((Frame*)i)->isData) fout << "DATA" << endl; else fout << "TEXT" << endl;
 			}
 		}
 		return fout;
@@ -304,6 +306,7 @@ public:
 				labelId[nw->name] = nw->id;
 			}
 		}
+		entry = labelId["main"];	
 		for (auto line : lines) {
 			if (line->type == Line::Line_type::tInstruction) {
 				Instruction* nw = dynamic_cast<Instruction*> (line);
