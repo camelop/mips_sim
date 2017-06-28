@@ -24,6 +24,18 @@ private:
 	Brick_type type;
 	unsigned long long location;
 
+	Brick() {}
+
+	Brick(string& nw, char* nreg) {
+		if (nw[0] != '$') {
+			type = imm;
+			location = fromStringToNumber(nw);
+			return;
+		}
+		type = reg;
+		location = (unsigned long long)(nreg + 4 * idReg[nw]);
+	}
+
 	void fromString(string& nw, char* nreg) {
 		if (nw[0] != '$') {
 			type = imm;
@@ -81,9 +93,11 @@ class CPU {
 
 	int pc;
 	int nopCounter;
+	bool isOn;
 	
 	bool JR_LOCK;
 	void IF(const Program& pg) {
+		if (!isOn) return;
 		if (IF_ID) return;
 		if (JR_LOCK) {
 			if (ID_IF) {
@@ -114,8 +128,16 @@ class CPU {
 		}
 		else {
 			++pc;
+			if (pc > pg.lines.size()) throw (-1);//invalid program
+		}
+		if (nw.ins == "syscall") {
+			if ((*(findReg(idReg["$v0"]))) == 10) sys10_IF();
+			if ((*(findReg(idReg["$v0"]))) == 10) sys17_IF();
 		}
 	}
+
+	void sys10_IF() { isOn = false; }
+	void sys17_IF() { isOn = false; }
 
 	bool IF_ID;
 	Instruction instruction_IF_ID;
@@ -124,15 +146,18 @@ class CPU {
 	void ID(const Program& pg) {
 		if (ID_EX || !IF_ID) return;
 		string& ins = instruction_IF_ID.ins;
+		ins_ID_EX = ins;
 		data_ID_EX.clear();
 		if (type_o_i_i_sheet.count(ins)) {
 			des_ID_EX.fromString(instruction_IF_ID.arg[0], reg);
-			data_ID_EX.push_back()// to-do
+			data_ID_EX.push_back(Brick(instruction_IF_ID.arg[1], reg));
+			data_ID_EX.push_back(Brick(instruction_IF_ID.arg[2], reg));
 		}
 		else {
-			//other kinds of instruction
+			//other kinds of instructions
 			//to-do here
 		}
+		ID_EX = true;
 
 	}
 
@@ -162,6 +187,11 @@ class CPU {
 
 	}
 
+	unsigned long long hp;
+	void sys9_MEM(unsigned long long n) {
+		hp += n;
+	}
+
 	bool MEM_LAST;
 	Brick location;
 	string before;
@@ -176,15 +206,17 @@ class CPU {
 
 	}
 
-	unsigned long long hp;
-	void sys9_distribute(unsigned long long n) {
-		hp += n;
+	void sys10_WB() {
+		(*findReg(idReg["$a0"])) = 0;
+	}
+	void sys17_WB() {
+		//do nothing but keep $a0
 	}
 
 	vector<char*> memRef;
 public:
 	CPU(istream& I, ostream& O) :I(I), O(O) {}
-	void run(const Program& pg) {
+	int run(const Program& pg) {
 		pc = pg.entry;
 		memset(ram, 0, sizeof(ram));
 		memset(reg, 0, sizeof(reg));
@@ -194,7 +226,7 @@ public:
 		for (auto i : pg.lines) {
 			memRef.push_back(ram + hp);
 			if (i->type == Line::Line_type::tData) {
-				sys9_distribute((reinterpret_cast<Data*>(i))->length);
+				sys9_MEM((reinterpret_cast<Data*>(i))->length);
 			}
 		}
 
@@ -207,14 +239,18 @@ public:
 		MEM_LAST = false;
 		MEM_WB = false;
 
+		isOn = true;
 		working = true;
 		while (working) {
+			//reverse later
 			IF(pg);
 			ID(pg);
 			EX(pg);
 			MEM(pg);
 			WB(pg);
 		}
+
+		return (*findReg(idReg["$a0"]));
 	}
 };
 

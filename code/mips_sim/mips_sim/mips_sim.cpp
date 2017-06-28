@@ -6,6 +6,7 @@
 #include <set>
 #include "line.hpp"
 #include "program.hpp"
+#include "CPU.hpp"
 
 #define MIPS_TEST1
 
@@ -246,24 +247,26 @@ int main(int argc, char* argv[]) {
 	string inMipsLocation, inDataLocation;
 	if (argc == 1) {
 		++argc;
-		cout << "Input the index of the mips file: ";
-		cin>>inMipsLocation;
+		//cout << "Input the index of the mips file: ";
+		//cin>>inMipsLocation;
 	}
 	else {
 		inMipsLocation = argv[1];
 	}
 	if (argc == 2) {
-		cout << "Input the index of the in file: ";
-		cin >> inDataLocation;
+		//cout << "Input the index of the in file: ";
+		//cin >> inDataLocation;
 	}
 	else {
 		inDataLocation = argv[2];
 	}
 	ifstream mipsIn(inMipsLocation);
-	ifstream dataIn(inDataLocation);
-	ofstream dataOut("output.txt");
+
+	//ifstream dataIn(inDataLocation);
+	//ofstream dataOut("output.txt");
 	
 	Program pg(mipsIn);
-
-	
+	CPU myCPU(cin, cout);
+	int ret = myCPU.run(pg);
+	return ret;
 }
