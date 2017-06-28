@@ -151,7 +151,6 @@
     <ClInclude Include="CPU.hpp" />
     <ClInclude Include="line.hpp" />
     <ClInclude Include="program.hpp" />
-    <ClInclude Include="RAM.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

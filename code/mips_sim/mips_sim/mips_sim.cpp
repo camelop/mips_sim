@@ -3,8 +3,8 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <set>
 #include "line.hpp"
-#include "RAM.hpp"
 #include "program.hpp"
 
 #define MIPS_TEST1
@@ -13,9 +13,43 @@ using namespace std;
 
 map<string, Line::Line_type> findType;
 map<string, Data::Data_type> find_dType;
+set<string> label_1_sheet;
+set<string> label_2_sheet;
+set<string> label_2_check_sheet;
+set<string> label_3_sheet;
+
 const int Memory = 4 * 1024 * 1024;
 
 void init() {
+	//init label_1_sheet
+	label_1_sheet.insert("j");
+	label_1_sheet.insert("b");
+	label_1_sheet.insert("jal");
+
+	//init label_2_sheet
+	label_2_sheet.insert("beqz");
+	label_2_sheet.insert("bnez");
+	label_2_sheet.insert("blez");
+	label_2_sheet.insert("bgez");
+	label_2_sheet.insert("bgtz");
+	label_2_sheet.insert("bltz");
+
+	//init label_2_check_sheet
+	label_2_check_sheet.insert("la");
+	label_2_check_sheet.insert("lb");
+	label_2_check_sheet.insert("lh");
+	label_2_check_sheet.insert("lw");
+	label_2_check_sheet.insert("sb");
+	label_2_check_sheet.insert("sh");
+	label_2_check_sheet.insert("sw");
+
+	//init label_3_sheet
+	label_3_sheet.insert("beq");
+	label_3_sheet.insert("bne");
+	label_3_sheet.insert("bge");
+	label_3_sheet.insert("ble");
+	label_3_sheet.insert("bgt");
+	label_3_sheet.insert("blt");
 
 	//init findType
 	//.
@@ -112,7 +146,7 @@ int main(int argc, char* argv[]) {
 	init();
 
 #ifdef MIPS_TEST1
-	ifstream mipsIn1("spill2-5100379110-daibo.s");
+	ifstream mipsIn1("array_test1-mahaojun.s");
 	Program pg1(mipsIn1);
 	cout << pg1;
 	return 0;

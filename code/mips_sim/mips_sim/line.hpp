@@ -6,7 +6,9 @@
 using namespace std;
 
 class Line {
-	friend class Program; friend ostream& operator <<(ostream& fout, const Program& pg);
+	friend class Program; 
+	friend class CPU;
+	friend ostream& operator <<(ostream& fout, const Program& pg);
 public:
 	enum Line_type {
 		tLabel, tInstruction, tData, tFrame
@@ -25,6 +27,7 @@ public:
 
 class Label :public Line {
 	friend class Program;
+	friend class CPU;
 	friend ostream& operator <<(ostream& fout, const Program& pg);
 protected:
 	string name;
@@ -34,12 +37,12 @@ public:
 };
 
 class Instruction : public Line {
+	friend class CPU;
 	friend class Program; 
 	friend ostream& operator <<(ostream& fout, const Program& pg);
 protected:
 	string ins;
-	char argc;
-	string argv[3];
+	vector<string> arg;
 public:
 	Instruction() :Line(tInstruction) {}
 	Instruction(unsigned int id) :Line(tInstruction, id) {}

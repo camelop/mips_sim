@@ -2,12 +2,14 @@
 #define littleround_MIPS_CPU
 
 #include<iostream>
-#include "RAM.hpp"
 #include "program.hpp"
 #include<string>
 #include<vector>
 #include<set>
+#include<map>
 using namespace std;
+
+extern const int Memory = 4 * 1024 * 1024;
 
 class Brick {
 public:
@@ -16,8 +18,9 @@ public:
 	};
 private:
 	Brick_type type;
-	int data;
-	int size;
+	char* ram;
+	unsigned long long data;
+	unsigned long long size;
 };
 
 class Reg {
@@ -40,6 +43,7 @@ class Assumption {
 
 class CPU {
 	Assumption assumptionFlow[5];
+	char ram[Memory];
 
 	int pc;
 	int nopCounter;
@@ -77,7 +81,6 @@ class CPU {
 
 	istream& I;
 	ostream& O;
-	RAM& ram;
 	void MEM() {
 
 	}
@@ -98,10 +101,7 @@ class CPU {
 
 public:
 	void run(Program& pg) {
-
-	}
-	void prepare(Program& pg) {
-
+		//pg should be prepared
 	}
 };
 

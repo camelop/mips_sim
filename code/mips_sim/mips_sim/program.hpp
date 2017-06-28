@@ -4,13 +4,95 @@
 #include <vector>
 #include <iostream>
 #include "line.hpp"
-#include "RAM.hpp"
 using namespace std;
 
 extern map<string, Line::Line_type> findType;
 extern map<string, Data::Data_type> find_dType;
+extern set<string> label_1_sheet;
+extern set<string> label_2_sheet;
+extern set<string> label_2_check_sheet;
+extern set<string> label_3_sheet;
+
+long long fromStringToNumber(const string& s) {
+	long long ten = 1;
+	long long f = 1;
+	long long ret = 0;
+	for (int i = s.length() - 1; i >= 0; i--) {
+		if (s[i] == '-') {
+			f = -1;
+			continue;
+		}
+		ret += ten*(s[i] - '0');
+		ten *= 10;
+	}
+	return ret*f;
+}
+
+string fromNumberToString(long long x) {
+	string ret = "";
+	if (x == 0) {
+		return "0";
+	}
+	bool f = 0;
+	if (x < 0) {
+		f = 1;
+		x = -x;
+	}
+	while (x > 0) {
+		ret = (char)(x % 10 + '0') + ret;
+		x /= 10;
+	}
+	if (f) ret = '-' + ret;
+	return ret;
+}
+
+unsigned long long distribute(unsigned long long &mem, const Data& d) {
+	unsigned long long ret = 0;
+	switch (d.dType) {
+	case Data::Data_type::align: {
+		unsigned long long two = (1 << fromStringToNumber(d.arg[0]));
+		unsigned long long res = mem%two;
+		if (res == 0) return 0;
+		ret = two - res;
+		mem += ret;
+		return ret;
+	}
+	case Data::Data_type::ascii: {
+		ret = d.arg[0].length();
+		mem += ret;
+		return ret;
+	}
+	case Data::Data_type::asciiz: {
+		ret = d.arg[0].length() + 1;
+		mem += ret;
+		return ret;
+	}
+	case Data::Data_type::byte: {
+		//recognize as digits
+		mem += 1;
+		return 1;
+	}
+	case Data::Data_type::half: {
+		mem += 2;
+		return 2;
+	}
+	case Data::Data_type::word: {
+		mem += 4;
+		return 4;
+	}
+	case Data::Data_type::space: {
+		ret = fromStringToNumber(d.arg[0]);
+		mem += ret;
+		return ret;
+	}
+	default: {
+		throw(-1); //undefined
+	}
+	}
+}
 
 class Program {
+	friend class CPU;
 private:
 	vector<Line*> lines;
 public:
@@ -23,8 +105,9 @@ public:
 		}
 		int cnt = 0;
 		for (auto i : lines) {
-			i->id = cnt++;
+			i->id = ++cnt;
 		}
+		prepare();
 	}
 	~Program() {
 		for (auto i : lines) delete i;
@@ -38,23 +121,22 @@ public:
 			switch (findType[s]) {
 			case Line::Line_type::tInstruction : {
 				Instruction* nw = new Instruction;
-				nw->argc = 0;
+				nw->arg.clear();
 				nw->ins = s;
-				nw->argv[0] = getToken(line, t);
-				if (nw->argv[0] == "") return nw;
-				nw->argc++;
+				s = getToken(line, t);
+				if (s == "") return nw;
+				nw->arg.push_back(s);
 				eatComma(line, t);
 
-
-				nw->argv[1] = getToken(line, t);
-				if (nw->argv[1] == "") return nw;
-				nw->argc++;
+				s = getToken(line, t);
+				if (s == "") return nw;
+				nw->arg.push_back(s);
 				eatComma(line, t);
 
-				nw->argv[2] = getToken(line, t);
-				if (nw->argv[2] == "") return nw;
-				nw->argc++;
-
+				s = getToken(line, t);
+				if (s == "") return nw;
+				nw->arg.push_back(s);
+				
 				return nw;
 			}
 			case Line::Line_type::tData : {
@@ -98,13 +180,13 @@ public:
 	}
 
 	inline bool isSpecial(char x) {
-		return (x == '_' || x == '.');
+		return (x == '_' || x == '.' || x == '$' || x == '(' || x == ')');
 	}
 
 	void eatComma(string& line, int& t) {
 		while (!isLetter(line[t]) && !isSpecial(line[t])
 			&& line[t] != ':' && line[t] != '#' && t<line.length()) ++t;
-		if (t < line.length() && line[t] == '#') t = line.length();
+		if (t < line.length() && line[t] == '#' ) t = line.length();
 	}
 
 	string getToken(string& line, int& t) {
@@ -198,7 +280,9 @@ public:
 				cout << ((Label*) i)->name << endl;
 			}
 			if (i->type == 1) {
-				cout << ((Instruction*)i)->ins << endl;
+				cout << ((Instruction*)i)->ins << ":";
+				for (auto j : ((Instruction*)i)->arg) cout << ' ' << j;
+				cout << endl;
 			}
 			if (i->type == 2) {
 				cout << ((Data*)i)->location<< ' ' <<((Data*)i)->length << endl;
@@ -208,6 +292,40 @@ public:
 			}
 		}
 		return fout;
+	}
+
+	void prepare() {
+		map<string, int> labelId;
+		for (auto line : lines) {
+			if (line->type == Line::Line_type::tLabel) {
+				Label* nw = dynamic_cast<Label*> (line);
+				if (nw->name == "") continue;
+				if (labelId.count(nw->name)) throw(-1); //reduplicated label
+				labelId[nw->name] = nw->id;
+			}
+		}
+		for (auto line : lines) {
+			if (line->type == Line::Line_type::tInstruction) {
+				Instruction* nw = dynamic_cast<Instruction*> (line);
+				if (label_1_sheet.count(nw->ins)) {
+					if (!labelId.count(nw->arg[0])) throw(-1); //undefined label
+					nw->arg[0] = fromNumberToString(labelId[nw->arg[0]]);
+				}
+				if (label_2_sheet.count(nw->ins)) {
+					if (!labelId.count(nw->arg[1])) throw(-1); //undefined label
+					nw->arg[1] = fromNumberToString(labelId[nw->arg[1]]);
+				}
+				if (label_3_sheet.count(nw->ins)) {
+					if (!labelId.count(nw->arg[2])) throw(-1); //undefined label
+					nw->arg[2] = fromNumberToString(labelId[nw->arg[2]]);
+				}
+				if (label_2_check_sheet.count(nw->ins)) {
+					if (nw->arg[1].find('(') != string::npos) continue;
+					if (!labelId.count(nw->arg[1])) throw(-1); //undefined label
+					nw->arg[1] = fromNumberToString(labelId[nw->arg[1]]);
+				}
+			}
+		}
 	}
 };
 
