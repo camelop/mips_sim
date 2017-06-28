@@ -14,13 +14,38 @@ extern const int Memory = 4 * 1024 * 1024;
 class Brick {
 public:
 	enum Brick_type {
-		reg, ram, imm
+		reg, ram1, ram2, ram4, imm
 	};
 private:
 	Brick_type type;
 	char* ram;
-	unsigned long long data;
-	unsigned long long size;
+	char* reg;
+	char* data;
+
+	int* findReg() {
+		return reinterpret_cast<int *>(reg + data * 4);
+	}
+
+	friend void operator << (Brick& des, const Brick& res) {
+		unsigned long long temp;
+		switch (res.type) {
+		case imm : {
+			temp = &res.data;
+			break;
+		}
+		case reg : {
+			temp = res.findReg();
+			break;
+		}
+		default : {
+			temp = res.data;
+		}
+		}
+		//find the pointer to the source
+	}
+	friend void operator >> (const Brick& res, Brick& des) {
+		des << res;
+	}
 };
 
 class Reg {
@@ -44,6 +69,7 @@ class Assumption {
 class CPU {
 	Assumption assumptionFlow[5];
 	char ram[Memory];
+	char reg[4 * 34];
 
 	int pc;
 	int nopCounter;
@@ -101,7 +127,7 @@ class CPU {
 
 public:
 	void run(Program& pg) {
-		//pg should be prepared
+		
 	}
 };
 
