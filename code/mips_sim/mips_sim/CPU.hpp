@@ -317,11 +317,11 @@ class CPU {
 			int code = data_ID_EX[0].location;
 			switch (code) {
 			case 1: {
-				//to-do here
+				O << (int)data_ID_EX[0].location;
 				break;
 			}
 			case 5: {
-
+				//should this be in mem or ex
 			}
 			}
 		}
