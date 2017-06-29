@@ -106,7 +106,7 @@ public:
 		}
 		int cnt = 0;
 		for (auto i : lines) {
-			i->id = ++cnt;
+			i->id = cnt++;
 		}
 		prepare();
 	}
@@ -306,7 +306,7 @@ public:
 				labelId[nw->name] = nw->id;
 			}
 		}
-		entry = labelId["main"];	
+		entry = labelId["main"] + 1;
 		for (auto line : lines) {
 			if (line->type == Line::Line_type::tInstruction) {
 				Instruction* nw = dynamic_cast<Instruction*> (line);

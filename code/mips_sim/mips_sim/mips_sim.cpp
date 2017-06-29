@@ -20,13 +20,22 @@ set<string> label_2_check_sheet;
 set<string> label_3_sheet;
 set<string> type_o_i_i_sheet;
 set<string> type_o_i_sheet;
+set<string> type_ls_sheet;
 
 map<string, int> idReg;
 
 const int Memory = 4 * 1024 * 1024;
 
 void init() {
-	
+	//init type_ls_sheet
+	type_ls_sheet.insert("la");
+	type_ls_sheet.insert("lb");
+	type_ls_sheet.insert("lh");
+	type_ls_sheet.insert("lw");
+	type_ls_sheet.insert("sb");
+	type_ls_sheet.insert("sh");
+	type_ls_sheet.insert("sw");
+
 	//init type_o_i_i_sheet
 	type_o_i_i_sheet.insert("add");
 	type_o_i_i_sheet.insert("addu");
@@ -133,8 +142,8 @@ void init() {
 	idReg["$s8"] = 30;
 	idReg["$fp"] = 30;
 	idReg["$ra"] = 31;
-	idReg["$hi"] = 32;
-	idReg["$lo"] = 33;
+	idReg["$lo"] = 32;
+	idReg["$hi"] = 33;
 
 	//init label_1_sheet
 	label_1_sheet.insert("j");
