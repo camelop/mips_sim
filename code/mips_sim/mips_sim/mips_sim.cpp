@@ -19,12 +19,51 @@ set<string> label_2_sheet;
 set<string> label_2_check_sheet;
 set<string> label_3_sheet;
 set<string> type_o_i_i_sheet;
+set<string> type_o_i_sheet;
 
 map<string, int> idReg;
 
 const int Memory = 4 * 1024 * 1024;
 
 void init() {
+	
+	//init type_o_i_i_sheet
+	type_o_i_i_sheet.insert("add");
+	type_o_i_i_sheet.insert("addu");
+	type_o_i_i_sheet.insert("addiu");
+	type_o_i_i_sheet.insert("sub");
+	type_o_i_i_sheet.insert("subu");
+	type_o_i_i_sheet.insert("div");
+	type_o_i_i_sheet.insert("xor");
+	type_o_i_i_sheet.insert("xoru");
+	type_o_i_i_sheet.insert("rem");
+	type_o_i_i_sheet.insert("remu");
+	type_o_i_i_sheet.insert("seq");
+	type_o_i_i_sheet.insert("sge");
+	type_o_i_i_sheet.insert("sgt");
+	type_o_i_i_sheet.insert("sle");
+	type_o_i_i_sheet.insert("slt");
+	type_o_i_i_sheet.insert("sne");
+	
+	type_o_i_i_sheet.insert("mul");
+	type_o_i_i_sheet.insert("mulu");
+	type_o_i_i_sheet.insert("div");
+	type_o_i_i_sheet.insert("divu");
+
+
+	//init type_o_i_sheet;
+	type_o_i_sheet.insert("neg");
+	type_o_i_sheet.insert("negu");
+	type_o_i_sheet.insert("li");
+	type_o_i_sheet.insert("move");
+	type_o_i_sheet.insert("mfhi");
+	type_o_i_sheet.insert("mflo");
+
+	type_o_i_sheet.insert("mul");
+	type_o_i_sheet.insert("mulu");
+	type_o_i_sheet.insert("div");
+	type_o_i_sheet.insert("divu");
+
 	//init idReg
 	idReg["$0"] = 0;
 	idReg["$1"] = 1;
@@ -94,24 +133,8 @@ void init() {
 	idReg["$s8"] = 30;
 	idReg["$fp"] = 30;
 	idReg["$ra"] = 31;
-
-	//init type_o_i_i_sheet
-	type_o_i_i_sheet.insert("add");
-	type_o_i_i_sheet.insert("addu");
-	type_o_i_i_sheet.insert("addiu");
-	type_o_i_i_sheet.insert("sub");
-	type_o_i_i_sheet.insert("subu");
-	type_o_i_i_sheet.insert("div");
-	type_o_i_i_sheet.insert("xor");
-	type_o_i_i_sheet.insert("xoru");
-	type_o_i_i_sheet.insert("rem");
-	type_o_i_i_sheet.insert("remu");
-	type_o_i_i_sheet.insert("seq");
-	type_o_i_i_sheet.insert("sge");
-	type_o_i_i_sheet.insert("sgt");
-	type_o_i_i_sheet.insert("sle");
-	type_o_i_i_sheet.insert("slt");
-	type_o_i_i_sheet.insert("sne");
+	idReg["$hi"] = 32;
+	idReg["$lo"] = 33;
 
 	//init label_1_sheet
 	label_1_sheet.insert("j");
