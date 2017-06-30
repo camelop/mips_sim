@@ -55,6 +55,12 @@ void init() {
 	wb_sheet.insert("sle");
 	wb_sheet.insert("slt");
 	wb_sheet.insert("sne");
+	wb_sheet.insert("jal");
+	wb_sheet.insert("jalr");
+	wb_sheet.insert("move");
+	wb_sheet.insert("mfhi");
+	wb_sheet.insert("mflo");
+	
 
 	//init type_ls_sheet
 	type_ls_sheet.insert("la");
@@ -171,6 +177,7 @@ void init() {
 	idReg["$s8"] = 30;
 	idReg["$fp"] = 30;
 	idReg["$ra"] = 31;
+	idReg["$lohi"] = 32;
 	idReg["$lo"] = 32;
 	idReg["$hi"] = 33;
 
@@ -295,8 +302,10 @@ void init() {
 
 }
 
-//int main(int argc, char* argv[]) {
-int main(){
+int main(int argc, char* argv[]) {
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
 	init();
 #ifdef MY_OUTSIDE
 	string inMipsLocation, inDataLocation;
@@ -317,14 +326,14 @@ int main(){
 	}
 	ifstream mipsIn(inMipsLocation);
 #endif
-
-	ifstream mipsIn("array_test1-mahaojun.s");
-	ifstream iData("array_test1-mahaojun.in");
+	//ifstream mipsIn("tak-5090379042-jiaxiao.s");
+	ifstream mipsIn(argv[1]);
+	//ifstream iData("tak-5090379042-jiaxiao.in");
 	//ifstream dataIn(inDataLocation);
 	//ofstream dataOut("output.txt");
 	
 	Program pg(mipsIn);
-	CPU myCPU(iData, cout);
+	CPU myCPU(cin, cout);
 	int ret = myCPU.run(pg);
 	return ret;
 }

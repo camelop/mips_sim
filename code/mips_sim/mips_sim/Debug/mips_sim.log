@@ -1,36 +1,10 @@
-﻿生成启动时间为 2017-6-30 11:40:33。
+﻿生成启动时间为 2017-7-1 0:28:16。
      1>项目“C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\mips_sim\mips_sim.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt mips_sim.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /nologo /W3 /WX- /O2 /Ot /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope- /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt mips_sim.cpp
+     1>cl : 命令行 warning D9035: “Zc:forScope-”选项已否决，并将在将来的版本中移除
+     1>cl : 命令行 warning D9007: “/Gm”需要“/Zi 或 /ZI”；选项被忽略
          mips_sim.cpp
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\program.hpp(189): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\program.hpp(190): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\program.hpp(196): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\program.hpp(218): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\op.hpp(184): warning C4244: “参数”: 从“const unsigned __int64”转换到“unsigned int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(59): warning C4806: “==”: 不安全操作: 从类型“bool”提升到类型“int”的值不能等于给定的常量
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(73): warning C4018: “<”: 有符号/无符号不匹配
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(74): warning C4018: “>=”: 有符号/无符号不匹配
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(89): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(98): warning C4244: “=”: 从“__int64”转换到“int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(108): warning C4018: “>=”: 有符号/无符号不匹配
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(195): warning C4244: “=”: 从“unsigned __int64”转换到“int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(221): warning C4244: “初始化”: 从“unsigned __int64”转换到“int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(300): warning C4244: “=”: 从“unsigned __int64”转换到“int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(301): warning C4244: “=”: 从“unsigned __int64”转换到“int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(325): warning C4800: “unsigned __int64”: 将值强制为布尔值“true”或“false”(性能警告)
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(325): warning C4305: “=”: 从“int”到“bool”截断
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(329): warning C4244: “初始化”: 从“unsigned __int64”转换到“int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(380): warning C4244: “初始化”: 从“unsigned __int64”转换到“int”，可能丢失数据
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(434): warning C4804: “-=”: 在操作中使用类型“bool”不安全
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(434): warning C4800: “int”: 将值强制为布尔值“true”或“false”(性能警告)
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(440): warning C4804: “-=”: 在操作中使用类型“bool”不安全
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(440): warning C4800: “int”: 将值强制为布尔值“true”或“false”(性能警告)
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(441): warning C4804: “-=”: 在操作中使用类型“bool”不安全
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(441): warning C4800: “int”: 将值强制为布尔值“true”或“false”(性能警告)
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(443): warning C4804: “-=”: 在操作中使用类型“bool”不安全
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(443): warning C4800: “int”: 将值强制为布尔值“true”或“false”(性能警告)
-     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\mips_sim\mips_sim\cpu.hpp(507): warning C4018: “<”: 有符号/无符号不匹配
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\Debug\mips_sim.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\Debug\mips_sim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\Debug\mips_sim.lib" /MACHINE:X86 Debug\mips_sim.obj
          mips_sim.vcxproj -> C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\Debug\mips_sim.exe
@@ -38,4 +12,4 @@
 
 已成功生成。
 
-已用时间 00:00:01.89
+已用时间 00:00:02.74

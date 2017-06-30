@@ -13,10 +13,10 @@ extern set<string> label_2_sheet;
 extern set<string> label_2_check_sheet;
 extern set<string> label_3_sheet;
 
-long long fromStringToNumber(const string& s) {
-	long long ten = 1;
-	long long f = 1;
-	long long ret = 0;
+int fromStringToNumber(const string& s) {
+	int ten = 1;
+	int f = 1;
+	int ret = 0;
 	for (int i = s.length() - 1; i >= 0; i--) {
 		if (s[i] == '-') {
 			f = -1;
@@ -25,7 +25,7 @@ long long fromStringToNumber(const string& s) {
 		ret += ten*(s[i] - '0');
 		ten *= 10;
 	}
-	return ret*f;
+	return (ret*f);
 }
 
 string fromNumberToString(long long x) {
@@ -181,19 +181,19 @@ public:
 	}
 
 	inline bool isSpecial(char x) {
-		return (x == '_' || x == '.' || x == '$' || x == '(' || x == ')');
+		return (x == '_' || x == '.' || x == '$' || x == '(' || x == ')' || x == '-' );
 	}
 
 	void eatComma(string& line, int& t) {
 		while (!isLetter(line[t]) && !isSpecial(line[t])
-			&& line[t] != '#' && t<line.length()) ++t;
-		if (t < line.length() && line[t] == '#' ) t = line.length();
+			&& line[t] != '#' && t<(int)line.length()) ++t;
+		if (t < (int)line.length() && line[t] == '#' ) t = line.length();
 	}
 
 	string getToken(string& line, int& t) {
 		while (!isLetter(line[t]) && !isSpecial(line[t]) 
 			&& line[t] != ',' && line[t] != '#'
-			&& t<line.length()) ++t;
+			&& t<(int)line.length()) ++t;
 		if (t == line.length()) return "";
 		if (line[t] == '#') {
 			t = line.length();
@@ -215,7 +215,7 @@ public:
 	}
 
 	string getString(string& line, int& t) {
-		while (line[t] != '\n' && line[t] != '\r' && line[t] != '\"' && t<line.length()) ++t;
+		while (line[t] != '\n' && line[t] != '\r' && line[t] != '\"' && t<(int)line.length()) ++t;
 		if (t == line.length() || line[t] == '\n' || line[t] == '\r') return "";
 		bool escape = false;
 		string ret = "";

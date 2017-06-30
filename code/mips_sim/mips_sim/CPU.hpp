@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<iomanip>
+#include <fstream>
 #include "program.hpp"
 #include<string>
 #include<vector>
@@ -47,6 +48,7 @@ class CPU {
 	
 	bool JR_LOCK;
 	bool B_LOCK;
+	string debugInWhichFunction;
 	void IF(const Program& pg) {
 		if (nopCounter > 0) {
 			nopCounter--;
@@ -70,8 +72,13 @@ class CPU {
 			}
 			else return;
 		}
-		while (pg.lines[pc]->type != Line::Line_type::tInstruction && pc<pg.lines.size()) ++pc;
-		if (pc >= pg.lines.size()) return;//invalid program or sys just about to exit
+		while (pg.lines[pc]->type != Line::Line_type::tInstruction && pc < (int)pg.lines.size()) {
+			string temp;
+			if (pg.lines[pc]->type == Line::Line_type::tLabel)  temp = dynamic_cast<Label*>(pg.lines[pc])->name;
+			if (temp != "") debugInWhichFunction = temp;
+			++pc;
+		}
+		if (pc >= (int)pg.lines.size()) return;//invalid program or sys just about to exit
 
 		Instruction& nw = *(dynamic_cast<Instruction*>(pg.lines[pc]));
 		if (nw.ins == "nop") {
@@ -105,17 +112,17 @@ class CPU {
 		}
 		else {
 			++pc;
-			if (pc >= pg.lines.size()) throw (-1);//invalid program
+			if (pc >= (int)pg.lines.size()) throw (-1);//invalid program
 		}
 	}
 
 	bool IF_ID;
 	Instruction instruction_IF_ID;
 
-	bool regLock[34];
+	char regLock[34];
 	bool ID_READY;
 	void ID(const Program& pg) {
-		if (ID_EX || !IF_ID) return;
+		if (ID_EX || (!IF_ID && !ID_READY)) return;
 		Brick toJump;
 		if (!ID_READY) {
 			ins_ID_EX = instruction_IF_ID.ins;
@@ -130,7 +137,7 @@ class CPU {
 				data_ID_EX.push_back(Brick(instruction_IF_ID.arg[2], reg));
 			}
 			else
-				if (type_o_i_sheet.count(ins) && instruction_IF_ID.arg.size() == 2) {
+				if (type_o_i_sheet.count(ins) && instruction_IF_ID.arg.size() <= 2) { //considering mfhi & mflo
 					if (ins == "mfhi") {
 						des_ID_EX.fromString(instruction_IF_ID.arg[0], reg);
 						data_ID_EX.push_back(Brick("$hi", reg));
@@ -167,7 +174,7 @@ class CPU {
 					else
 						if (ins == "jal" || ins == "jalr") {
 							data_ID_EX.push_back(Brick(instruction_IF_ID.arg[1],reg));
-							des_ID_EX.fromString(instruction_IF_ID.arg[0], reg);
+							des_ID_EX.fromString("$ra", reg);
 						}
 						else
 							if (type_ls_sheet.count(ins)) {
@@ -178,6 +185,7 @@ class CPU {
 							else
 								if (ins == "syscall") {
 									data_ID_EX.push_back(Brick("$v0", reg));
+									des_ID_EX.type = Brick::Brick_type::imm;
 								}
 			if (ins == "jr" || ins == "jalr") {
 				toJump.fromString(instruction_IF_ID.arg[0], reg);
@@ -192,13 +200,13 @@ class CPU {
 			if (isLocked(toJump)) return;
 			Brick temp(0);
 			temp << toJump;
-			pc_ID_IF = temp.location;
+			pc_ID_IF = (int)temp.location;
 			ID_IF = true;
 		}
 		//fill reg 
 		if (ins != "la" && ins != "lb" && ins != "lh" && ins != "lw") for (auto i : data_ID_EX) if (isLocked(i)) return;
 		//add locks
-		if (ins != "sb" && ins != "sh" && ins != "sw") {
+		if (wb_sheet.count(ins)) {
 			if (des_ID_EX.type == Brick::Brick_type::reg) {
 				++regLock[des_ID_EX.countReg(reg)];
 			}
@@ -209,7 +217,7 @@ class CPU {
 				}
 			}
 		}
-		for (auto i : data_ID_EX) {
+		for (Brick& i : data_ID_EX) {
 			if (i.type != Brick::Brick_type::reg) continue;
 			Brick temp;
 			temp.type = Brick::Brick_type::imm;
@@ -218,7 +226,7 @@ class CPU {
 		}
 		//syscall
 		if (ins == "syscall") {
-			int code = data_ID_EX[0].location;
+			int code = (int) data_ID_EX[0].location;
 			if (code == 1 || code == 4) {
 				Brick reg_a0("$a0", reg);
 				if (isLocked(reg_a0)) return;
@@ -270,7 +278,7 @@ class CPU {
 
 	bool isLocked(const Brick& b) {
 		if (b.type != Brick::Brick_type::reg) return false;
-		return regLock[b.countReg(reg)];
+		return (regLock[b.countReg(reg)] != 0);
 	}
 
 	void packAddress(vector<Brick>& v, string& nw) {
@@ -295,10 +303,11 @@ class CPU {
 
 		//control instructions
 		string& ins = ins_ID_EX;
+		ins_EX_MEM = ins_ID_EX;
 		if (label_3_sheet.count(ins) || label_2_sheet.count(ins)) {
 			int ll, rr; bool judge;
-			ll = data_ID_EX[0].location;
-			if (label_3_sheet.count(ins)) rr = data_ID_EX[1].location; else rr = 0;
+			ll = (int)data_ID_EX[0].location;
+			if (label_3_sheet.count(ins)) rr = (int)data_ID_EX[1].location; else rr = 0;
 			if (ins == "beq" || ins == "beqz") {
 				judge = (ll == rr);
 			}
@@ -322,11 +331,11 @@ class CPU {
 								judge = (ll < rr);
 							}
 			}
-			if (judge) pc_EX_IF = des_ID_EX.location; else pc_EX_IF = -1;
+			if (judge) pc_EX_IF = (int)des_ID_EX.location; else pc_EX_IF = -1;
 			EX_IF = true;
 		} else 
 		if (ins == "syscall") {
-			int code = data_ID_EX[0].location;
+			int code = (int) data_ID_EX[0].location;
 			des_EX_MEM.fromNumber(code);
 			if (code == 1 || code == 2 || code == 8 || code == 9 || code == 17)
 				data_EX_MEM = data_ID_EX[1].location;
@@ -334,16 +343,21 @@ class CPU {
 				data_EX_MEM_8 = data_ID_EX[2].location;
 			}
 		}
-		else {
-			Op op(ins_ID_EX, data_ID_EX, des_ID_EX, ins_EX_MEM, data_EX_MEM, des_EX_MEM, memRef);
-		}
+		else 
+			if (ins == "jal" || ins == "jalr") {
+				data_EX_MEM = data_ID_EX[0];
+				des_EX_MEM = Brick("$ra", reg);
+			}
+			else {
+				Op op(ins_ID_EX, data_ID_EX, des_ID_EX, ins_EX_MEM, data_EX_MEM, des_EX_MEM, memRef);
+			}
 		
 		ID_EX = false;
 		EX_MEM = true;
 	}
 
 	bool EX_IF;
-	bool pc_EX_IF;
+	int pc_EX_IF;
 
 	bool EX_MEM;
 	string ins_EX_MEM;
@@ -357,19 +371,21 @@ class CPU {
 	void MEM(const Program& pg) {
 		if (!EX_MEM || MEM_WB) return;
 		ins_MEM_WB = ins_EX_MEM;
-		if (data_EX_MEM.type == Brick::Brick_type::ram1
+		if (label_2_check_sheet.count(ins_MEM_WB)
+			&&(data_EX_MEM.type == Brick::Brick_type::ram1
 			|| data_EX_MEM.type == Brick::Brick_type::ram2
 			|| data_EX_MEM.type == Brick::Brick_type::ram4
-			) {
+			)) {
 			Brick temp;
 			temp.type = Brick::Brick_type::imm;
 			temp << data_EX_MEM;
 			data_EX_MEM.fromNumber(temp.location);
 		}
-		if (des_EX_MEM.type == Brick::Brick_type::ram1
+		if (label_2_check_sheet.count(ins_MEM_WB)
+			&& (des_EX_MEM.type == Brick::Brick_type::ram1
 			|| des_EX_MEM.type == Brick::Brick_type::ram2
 			|| des_EX_MEM.type == Brick::Brick_type::ram4
-		) {
+		)) {
 			des_EX_MEM << data_EX_MEM;
 		}
 		if (des_EX_MEM.type == Brick::Brick_type::reg || des_EX_MEM.type == Brick::Brick_type::lohi) {
@@ -377,7 +393,7 @@ class CPU {
 			data_MEM_WB = data_EX_MEM;
 		}
 		if (ins_MEM_WB == "syscall") {
-			int code = des_EX_MEM.location;
+			int code = (int) des_EX_MEM.location;
 			des_MEM_WB = des_EX_MEM;
 			switch (code) {
 			case 1: {
@@ -393,18 +409,18 @@ class CPU {
 				break;
 			}
 			case 5: {
-				des_MEM_WB.fromString("$v0", reg);
+				des_MEM_WB.fromNumber(code);
 				int temp;
 				I >> temp;
 				data_MEM_WB.fromNumber(temp);
 				break;
 			}
 			case 8: {
-				I.get(reinterpret_cast<char*>(data_EX_MEM.location), data_EX_MEM_8.location);
+				I.get(reinterpret_cast<char*>(data_EX_MEM.location), data_EX_MEM_8.location + 1);
 				break;
 			}
 			case 9: {
-				des_MEM_WB.fromString("$v0", reg);
+				des_MEM_WB.fromNumber(code);
 				data_MEM_WB.fromNumber((unsigned long long)(ram + hp));
 				sys9_MEM(data_EX_MEM.location);
 				break;
@@ -430,8 +446,12 @@ class CPU {
 		if (!MEM_WB) return;
 		if (ins_MEM_WB == "syscall") {
 			if (des_MEM_WB.location == 5 || des_MEM_WB.location == 9) {
+				des_MEM_WB.fromString("$v0", reg);
 				des_MEM_WB << data_MEM_WB;
 				regLock[des_MEM_WB.countReg(reg)] -= 1;
+			}
+			if (des_MEM_WB.location == 10 || des_MEM_WB.location == 17) {
+				working = false;
 			}
 		}
 		if (wb_sheet.count(ins_MEM_WB)) {
@@ -456,7 +476,7 @@ public:
 
 	int run(const Program& pg) {
 		pc = pg.entry;
-		memset(ram, 0, sizeof(ram));
+		memset(ram, 0, Memory);
 		memset(reg, 0, sizeof(reg));
 		memset(regLock, 0, sizeof(regLock));
 		(*(findReg(29))) = reinterpret_cast<int>(ram + Memory);
@@ -465,7 +485,28 @@ public:
 		for (auto i : pg.lines) {
 			memRef.push_back(ram + hp);
 			if (i->type == Line::Line_type::tData) {
-				sys9_MEM((reinterpret_cast<Data*>(i))->length);
+				Data* nw = dynamic_cast<Data*>(i);
+				if (nw->dType == Data::Data_type::ascii) {
+					for (int i = 0; i < nw->length; i++) {
+						ram[hp + i] = nw->arg[0][i];
+					}
+				}				
+				if (nw->dType == Data::Data_type::asciiz) {
+					for (int i = 0; i < nw->length; i++) {
+						ram[hp + i] = nw->arg[0][i];
+					}
+					ram[hp + nw->length] = '\0';
+				}
+				if (nw->dType == Data::Data_type::word) {
+					(*(reinterpret_cast<int*>(ram + hp))) = fromStringToNumber(nw->arg[0]);
+				}
+				if (nw->dType == Data::Data_type::half) {
+					(*(reinterpret_cast<short*>(ram + hp))) = fromStringToNumber(nw->arg[0]);
+				}
+				if (nw->dType == Data::Data_type::byte) {
+					(*(reinterpret_cast<char*>(ram + hp))) = fromStringToNumber(nw->arg[0]);
+				}
+				sys9_MEM(nw->length);
 			}
 		}
 
@@ -482,30 +523,53 @@ public:
 
 		isOn = true;
 		working = true;
+		//ofstream fout("routine.txt");
 		while (working) {
+		//	fout << pc + 1 << '\n';
 			//reverse later
+//#define CHECK_RAM
+		
 			IF(pg);
-			report();
+		//	report(fout);
 			ID(pg);
-			report();
+			//report(fout);
 			EX(pg);
-			report();
+			//report(fout);
 			MEM(pg);
-			report();
+			//report(fout);
 			WB(pg);
-			report();
+			//report(fout);
+			
+			/*
+			WB(pg);
+			report(fout);
+			MEM(pg);
+			//report(fout);
+			EX(pg);
+			//report(fout);
+			ID(pg);
+			//report(fout);
+			IF(pg);
+			//report(fout);
+			*/
 		}
-
+		//fout.close();
 		return (*findReg(idReg["$a0"]));
 	}
 
-	void report() {
+	void report(ostream& ooo) {
 		system("cls");
 		cerr << "\n--------------------CPU STATE---------------------\n";
+		cerr << "pc->" << pc << '\t'<<"hp->"<<hp<<'\t'<<"reg->"<<(int)reg<<'\n';
+		cerr << "in Function : " << debugInWhichFunction << '\n';
+		for (int i = 0; i < 34; i++) {
+			cerr << "Reg" << i << ": "<<(*findReg(i)) << ' ';
+			if (i % 6 == 5) cerr << '\n';
+		}
 		cerr << "\n--------------------  IF-ID  ---------------------\n";
 		cerr << "instruction:\t" << instruction_IF_ID.ins << '\n';
-		for (int i = 0; i < instruction_IF_ID.arg.size(); i++) {
-			cerr << "arg " << i << "\t" << instruction_IF_ID.arg[i] << '\n';
+		for (int i = 0; i < (int)instruction_IF_ID.arg.size(); i++) {
+			cerr << "arg" << i << "\t" << instruction_IF_ID.arg[i] << '\n';
 		}
 		cerr << "-------  ID-EX  -------     ------  ID-IF  -------\n\n";
 		cerr << "ins: " << setw(18) << ins_ID_EX; cerr << "     "; cerr << "new pc = " << pc_ID_IF << '\n';
@@ -521,8 +585,19 @@ public:
 		cerr << "\n--------------------  MEM-WB ---------------------\n";
 		cerr << "ins: " << ins_MEM_WB << '\n';
 		cerr << "data_send:\t" << data_MEM_WB << '\n';
-		cerr << "destination:\t" << des_MEM_WB << '\n';
+		cerr << "destination(reg):\t" << ((char*)des_MEM_WB.location - reg) / 4 << '\n';
 		cerr << "\n--------------------   END   ---------------------\n";
+#ifdef CHECK_RAM
+		cerr << "\n--------------------RAM_STATE---------------------\n";
+		cerr << "Heap : size=" << hp << '\t'<<(unsigned long long)ram<<" -> "<< (unsigned long long)(ram+hp)<<"\n";
+		cerr << "Content(by byte):\n";
+		for (int i = 0; i < hp; i++) {
+			cerr << setw(4) << (int)((char)(*(i + ram)));
+			if (i % 20 == 19) cerr << "\n";
+		}
+		cerr << "[end here]\n";
+#endif
+		ooo << pc + 1 << endl;
 	}
 };
 

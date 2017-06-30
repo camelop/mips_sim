@@ -181,7 +181,7 @@ public:
 				temp = temp + (int)(Idata[1].location);
 			}
 			else {
-				temp = memRef[Idata[0].location];
+				temp = memRef[(unsigned int)Idata[0].location];
 			}
 			if (ins[0] == 'l') {
 				Odata.fromNumber((unsigned long long)temp);

@@ -34,13 +34,7 @@ private:
 	Brick(unsigned long long x) :type(imm), location(x) {};
 	
 	Brick(const string& nw, char* nreg) {
-		if (nw[0] != '$') {
-			type = imm;
-			location = fromStringToNumber(nw);
-			return;
-		}
-		type = reg;
-		location = (unsigned long long)(nreg + 4 * idReg[nw]);
+		fromString(nw, nreg);
 	}
 
 	int countReg(char* nreg) const {
@@ -59,12 +53,14 @@ private:
 			location = fromStringToNumber(nw);
 			return;
 		}
-		if (nw == "$lohi" || nw == "$hilo") {
+		if (nw == "$lohi") {
 			type = lohi;
 			location = (unsigned long long)(nreg + 4 * 32);
 		}
-		type = reg;
-		location = (unsigned long long)(nreg + 4 * idReg[nw]);
+		else {
+			type = reg;
+			location = (unsigned long long)(nreg + 4 * idReg[nw]);
+		}
 	}
 
 	friend void operator << (Brick& des, Brick& res) {
