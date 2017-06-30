@@ -21,12 +21,41 @@ set<string> label_3_sheet;
 set<string> type_o_i_i_sheet;
 set<string> type_o_i_sheet;
 set<string> type_ls_sheet;
+set<string> wb_sheet;
 
 map<string, int> idReg;
 
-const int Memory = 4 * 1024 * 1024;
+extern const int Memory;
 
 void init() {
+	//init wb_sheet;
+	wb_sheet.insert("la");
+	wb_sheet.insert("lb");
+	wb_sheet.insert("lh");
+	wb_sheet.insert("lw");
+	wb_sheet.insert("add");
+	wb_sheet.insert("addu");
+	wb_sheet.insert("addiu");
+	wb_sheet.insert("sub");
+	wb_sheet.insert("subu");
+	wb_sheet.insert("mul");
+	wb_sheet.insert("mulu");
+	wb_sheet.insert("div");
+	wb_sheet.insert("divu");
+	wb_sheet.insert("xor");
+	wb_sheet.insert("xoru");
+	wb_sheet.insert("neg");
+	wb_sheet.insert("negu");
+	wb_sheet.insert("rem");
+	wb_sheet.insert("remu");
+	wb_sheet.insert("li");
+	wb_sheet.insert("seq");
+	wb_sheet.insert("sge");
+	wb_sheet.insert("sgt");
+	wb_sheet.insert("sle");
+	wb_sheet.insert("slt");
+	wb_sheet.insert("sne");
+
 	//init type_ls_sheet
 	type_ls_sheet.insert("la");
 	type_ls_sheet.insert("lb");
@@ -266,16 +295,10 @@ void init() {
 
 }
 
-int main(int argc, char* argv[]) {
+//int main(int argc, char* argv[]) {
+int main(){
 	init();
-
-#ifdef MIPS_TEST1
-	ifstream mipsIn1("array_test1-mahaojun.s");
-	Program pg1(mipsIn1);
-	cout << pg1;
-	return 0;
-#endif
-
+#ifdef MY_OUTSIDE
 	string inMipsLocation, inDataLocation;
 	if (argc == 1) {
 		++argc;
@@ -293,12 +316,15 @@ int main(int argc, char* argv[]) {
 		inDataLocation = argv[2];
 	}
 	ifstream mipsIn(inMipsLocation);
+#endif
 
+	ifstream mipsIn("array_test1-mahaojun.s");
+	ifstream iData("array_test1-mahaojun.in");
 	//ifstream dataIn(inDataLocation);
 	//ofstream dataOut("output.txt");
 	
 	Program pg(mipsIn);
-	CPU myCPU(cin, cout);
+	CPU myCPU(iData, cout);
 	int ret = myCPU.run(pg);
 	return ret;
 }
