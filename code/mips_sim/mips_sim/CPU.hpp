@@ -4,6 +4,7 @@
 #include<iostream>
 #include<iomanip>
 #include <fstream>
+#include <thread>
 #include "program.hpp"
 #include<string>
 #include<vector>
@@ -121,9 +122,10 @@ class CPU {
 
 	char regLock[34];
 	bool ID_READY;
+
+	Brick toJump;
 	void ID(const Program& pg) {
 		if (ID_EX || (!IF_ID && !ID_READY)) return;
-		Brick toJump;
 		if (!ID_READY) {
 			ins_ID_EX = instruction_IF_ID.ins;
 			string& ins = ins_ID_EX;
@@ -478,6 +480,9 @@ class CPU {
 	}
 
 	vector<char*> memRef;
+// multi-thread
+
+
 public:
 	CPU(istream& I, ostream& O) :I(I), O(O) {
 		ram = new char[Memory];
@@ -536,6 +541,8 @@ public:
 		working = true;
 		//ofstream fout("routine.txt");
 		while (working) {
+		//	report();
+		//	cout << pc + 1 << endl;
 //#define CHECK_RAM
 		/*
 			IF(pg);
@@ -557,7 +564,7 @@ public:
 			EX(pg);
 		//	report();
 			ID(pg);
-		//report();
+		//  report();
 			IF(pg);
 		}
 		//fout.close();
