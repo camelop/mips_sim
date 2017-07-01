@@ -326,14 +326,14 @@ int main(int argc, char* argv[]) {
 	}
 	ifstream mipsIn(inMipsLocation);
 #endif
-	//ifstream mipsIn("builtin-5140519064-youyurong.s");
-	ifstream mipsIn(argv[1]);
-	//ifstream iData("builtin-5140519064-youyurong.in");
+	ifstream mipsIn("builtin-5140519064-youyurong.s");
+	//ifstream mipsIn(argv[1]);
+	ifstream iData("builtin-5140519064-youyurong.in");
 	//ifstream dataIn(inDataLocation);
 	//ofstream dataOut("output.txt");
 	
 	Program pg(mipsIn);
-	CPU myCPU(cin, cout);
+	CPU myCPU(iData, cout);
 	int ret = myCPU.run(pg);
 	return ret;
 }
