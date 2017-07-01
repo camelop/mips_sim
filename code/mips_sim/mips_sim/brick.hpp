@@ -64,27 +64,49 @@ private:
 	}
 
 	friend void operator << (Brick& des, Brick& res) {
-		unsigned long long* tempp = &res.location;
-		int* temp = (res.type == imm) ? temp = reinterpret_cast<int*>(tempp) : reinterpret_cast<int*>(res.location);
-		switch (des.type) {
+		unsigned long long temp = 0;
+		//import
+		switch (res.type) {
 		case imm: {
-			des.location = (unsigned long long) (*(reinterpret_cast<int*>(temp)));
+			temp = res.location;
 			break;
 		}
 		case ram1: {
-			(*(reinterpret_cast<char*>(des.location))) = (*(reinterpret_cast<char*>(temp)));
-			break;
+			temp = (*(reinterpret_cast<unsigned char*>(res.location)));
+			break;	
 		}
 		case ram2: {
-			(*(reinterpret_cast<short*>(des.location))) = (*(reinterpret_cast<short*>(temp)));
+			temp = (*(reinterpret_cast<unsigned short*>(res.location)));
 			break;
 		}
 		case lohi: {
-			(*(reinterpret_cast<long long*>(des.location))) = (*(reinterpret_cast<long long*>(temp)));
+			temp = (*(reinterpret_cast<unsigned long long*>(res.location)));
 			break;
 		}
 		default: {
-			(*(reinterpret_cast<int*>(des.location))) = (*(reinterpret_cast<int*>(temp)));
+			temp = (*(reinterpret_cast<unsigned int*>(res.location)));
+		}
+		}
+		//export
+		switch (des.type) {
+		case imm: {
+			des.location = temp;
+			break;
+		}
+		case ram1: {
+			(*(reinterpret_cast<char*>(des.location))) = (char)temp;
+			break;
+		}
+		case ram2: {
+			(*(reinterpret_cast<short*>(des.location))) = (short)temp;
+			break;
+		}
+		case lohi: {
+			(*(reinterpret_cast<unsigned long long*>(des.location))) = temp;
+			break;
+		}
+		default: {
+			(*(reinterpret_cast<int*>(des.location))) = (int)temp;
 		}
 		}
 	}

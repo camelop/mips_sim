@@ -90,9 +90,10 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
-      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -123,8 +124,9 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
-      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+      <RemoveUnreferencedCodeData>true</RemoveUnreferencedCodeData>
       <DebugInformationFormat>None</DebugInformationFormat>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -14,7 +14,7 @@
 #include "op.hpp"
 using namespace std;
 
-extern const int Memory = 4 * 1024 * 1024;
+extern const int Memory = 40 * 1024 * 1024;
 
 extern map<string, int> idReg;
 extern set<string> type_o_i_i_sheet;
@@ -204,7 +204,7 @@ class CPU {
 			ID_IF = true;
 		}
 		//fill reg 
-		if (ins != "la" && ins != "lb" && ins != "lh" && ins != "lw") for (auto i : data_ID_EX) if (isLocked(i)) return;
+		if (ins != "sb" && ins != "sh" && ins != "sw") for (Brick& i : data_ID_EX) if (isLocked(i)) return;
 		//add locks
 		if (wb_sheet.count(ins)) {
 			if (des_ID_EX.type == Brick::Brick_type::reg) {
@@ -307,7 +307,7 @@ class CPU {
 		if (label_3_sheet.count(ins) || label_2_sheet.count(ins)) {
 			int ll, rr; bool judge;
 			ll = (int)data_ID_EX[0].location;
-			if (label_3_sheet.count(ins)) rr = (int)data_ID_EX[1].location; else rr = 0;
+			rr = (int)data_ID_EX[1].location;
 			if (ins == "beq" || ins == "beqz") {
 				judge = (ll == rr);
 			}
@@ -337,7 +337,7 @@ class CPU {
 		if (ins == "syscall") {
 			int code = (int) data_ID_EX[0].location;
 			des_EX_MEM.fromNumber(code);
-			if (code == 1 || code == 2 || code == 8 || code == 9 || code == 17)
+			if (code == 1 || code == 4 || code == 8 || code == 9 || code == 17)
 				data_EX_MEM = data_ID_EX[1].location;
 			if (code == 8) {
 				data_EX_MEM_8 = data_ID_EX[2].location;
@@ -412,11 +412,13 @@ class CPU {
 				des_MEM_WB.fromNumber(code);
 				int temp;
 				I >> temp;
+				char ch = I.get();
 				data_MEM_WB.fromNumber(temp);
 				break;
 			}
 			case 8: {
 				I.get(reinterpret_cast<char*>(data_EX_MEM.location), data_EX_MEM_8.location + 1);
+				char ch = I.get();
 				break;
 			}
 			case 9: {
@@ -480,7 +482,6 @@ public:
 		memset(reg, 0, sizeof(reg));
 		memset(regLock, 0, sizeof(regLock));
 		(*(findReg(29))) = reinterpret_cast<int>(ram + Memory);
-
 		hp = 0;
 		for (auto i : pg.lines) {
 			memRef.push_back(ram + hp);
@@ -527,18 +528,18 @@ public:
 		while (working) {
 		//	fout << pc + 1 << '\n';
 			//reverse later
-//#define CHECK_RAM
+#define CHECK_RAM
 		
 			IF(pg);
-		//	report(fout);
+			//report();
 			ID(pg);
-			//report(fout);
+			//report();
 			EX(pg);
-			//report(fout);
+			//report();
 			MEM(pg);
-			//report(fout);
+			//report();
 			WB(pg);
-			//report(fout);
+			//report();
 			
 			/*
 			WB(pg);
@@ -557,7 +558,7 @@ public:
 		return (*findReg(idReg["$a0"]));
 	}
 
-	void report(ostream& ooo) {
+	void report() {
 		system("cls");
 		cerr << "\n--------------------CPU STATE---------------------\n";
 		cerr << "pc->" << pc << '\t'<<"hp->"<<hp<<'\t'<<"reg->"<<(int)reg<<'\n';
@@ -597,7 +598,6 @@ public:
 		}
 		cerr << "[end here]\n";
 #endif
-		ooo << pc + 1 << endl;
 	}
 };
 
