@@ -1,0 +1,155 @@
+TEST  lvalue2-5110379024-wuhang
+passed
+used time:
+0.10953783988952637
+
+TEST  gcd-5090379042-jiaxiao
+passed
+used time:
+0.0783541202545166
+
+TEST  manyarguments-5100379110-daibo
+passed
+used time:
+0.06210684776306152
+
+TEST  tak-5090379042-jiaxiao
+passed
+used time:
+21.390630960464478
+
+TEST  builtin-5140519064-youyurong
+passed
+used time:
+0.09397459030151367
+
+TEST  array_test1-mahaojun
+passed
+used time:
+0.09365344047546387
+
+TEST  pi-5090379042-jiaxiao
+passed
+used time:
+105.87486267089844
+
+TEST  class_test-mahaojun
+passed
+used time:
+0.09376382827758789
+
+TEST  hanoi-5100379110-daibo
+passed
+used time:
+0.8437530994415283
+
+TEST  twinprime-5090379042-jiaxiao
+passed
+used time:
+14.172070741653442
+
+TEST  array_test2-mahaojun
+passed
+used time:
+0.09357261657714844
+
+TEST  basicopt1-5100309127-hetianxing
+passed
+used time:
+7.281268358230591
+
+TEST  qsort-5100379110-daibo
+passed
+used time:
+38.999990940093994
+
+TEST  string_test-huyuncong
+passed
+used time:
+0.10934901237487793
+
+TEST  statement_test-huyuncong
+passed
+used time:
+0.10936927795410156
+
+TEST  hashmap-5100309127-hetianxing
+passed
+used time:
+5.3749840259552
+
+TEST  queens-5100379110-daibo
+passed
+used time:
+9.656325340270996
+
+TEST  multiarray-5100309153-yanghuan
+passed
+used time:
+0.1719980239868164
+
+TEST  function_test-huyuncong
+passed
+used time:
+0.1249685287475586
+
+TEST  heapsort-5100379110-daibo
+passed
+used time:
+115.43742442131042
+
+TEST  horse-5100309153-yanghuan
+passed
+used time:
+102.7668776512146
+
+TEST  superloop-5090379042-jiaxiao
+passed
+used time:
+34.06336498260498
+
+TEST  maxflow-5100379110-daibo
+passed
+used time:
+124.20631647109985
+
+TEST  horse3-5100309153-yanghuan
+passed
+used time:
+127.87828612327576
+
+TEST  prime-5100309153-yanghuan
+passed
+used time:
+40.282437801361084
+
+TEST  bulgarian-5110379024-wuhang
+passed
+used time:
+14.328381061553955
+
+TEST  magic-5100309153-yanghuan
+passed
+used time:
+12.96901559829712
+
+TEST  expr-5110309085-jintianxing
+passed
+used time:
+0.21876001358032227
+
+TEST  horse2-5100309153-yanghuan
+passed
+used time:
+109.37779211997986
+
+TEST  spill2-5100379110-daibo
+passed
+used time:
+0.7187666893005371
+
+passed :
+30
+failed :
+0
+请按任意键继续. . .

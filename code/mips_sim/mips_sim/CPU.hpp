@@ -204,7 +204,15 @@ class CPU {
 			ID_IF = true;
 		}
 		//fill reg 
-		if (ins != "sb" && ins != "sh" && ins != "sw") for (Brick& i : data_ID_EX) if (isLocked(i)) return;
+		if (ins != "sb" && ins != "sh" && ins != "sw") {
+			for (Brick& i : data_ID_EX) if (isLocked(i)) return;
+		}
+		else {
+			if (data_ID_EX.size() == 2) {
+				if (isLocked(data_ID_EX[0])) return;
+			}
+		}
+		
 		//add locks
 		if (wb_sheet.count(ins)) {
 			if (des_ID_EX.type == Brick::Brick_type::reg) {
@@ -286,7 +294,9 @@ class CPU {
 			v.push_back(Brick(nw, reg));//label->imm
 			return;
 		}
+		//cout << nw.substr(nw.find('(') + 1, nw.find(')') - nw.find('(') - 1) << endl;
 		v.push_back(Brick(nw.substr(nw.find('(') + 1, nw.find(')') - nw.find('(') - 1), reg)); //reg
+		//cout << nw.substr(0, nw.find('(')) << endl;
 		v.push_back(Brick(nw.substr(0, nw.find('(')), reg)); //imm
 	}
 
@@ -526,10 +536,8 @@ public:
 		working = true;
 		//ofstream fout("routine.txt");
 		while (working) {
-		//	fout << pc + 1 << '\n';
-			//reverse later
-#define CHECK_RAM
-		
+//#define CHECK_RAM
+		/*
 			IF(pg);
 			//report();
 			ID(pg);
@@ -540,19 +548,17 @@ public:
 			//report();
 			WB(pg);
 			//report();
-			
-			/*
+		*/
+		//	report();
 			WB(pg);
-			report(fout);
+		//	report();
 			MEM(pg);
-			//report(fout);
+		//	report();
 			EX(pg);
-			//report(fout);
+		//	report();
 			ID(pg);
-			//report(fout);
+		//report();
 			IF(pg);
-			//report(fout);
-			*/
 		}
 		//fout.close();
 		return (*findReg(idReg["$a0"]));
@@ -564,8 +570,10 @@ public:
 		cerr << "pc->" << pc << '\t'<<"hp->"<<hp<<'\t'<<"reg->"<<(int)reg<<'\n';
 		cerr << "in Function : " << debugInWhichFunction << '\n';
 		for (int i = 0; i < 34; i++) {
-			cerr << "Reg" << i << ": "<<(*findReg(i)) << ' ';
-			if (i % 6 == 5) cerr << '\n';
+			cerr << "Reg" << i << '[';
+			if (regLock[i]) cerr << (int)regLock[i]; else cerr << ' ';
+			cerr << "]: "<<(*findReg(i)) << ' ';
+			if (i % 4 == 3) cerr << '\n';
 		}
 		cerr << "\n--------------------  IF-ID  ---------------------\n";
 		cerr << "instruction:\t" << instruction_IF_ID.ins << '\n';

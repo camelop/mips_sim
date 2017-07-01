@@ -1,15 +1,15 @@
-﻿生成启动时间为 2017-7-1 22:21:47。
-     1>项目“C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\mips_sim\mips_sim.vcxproj”在节点 2 上(Build 个目标)。
+﻿生成启动时间为 2017-7-1 23:59:04。
+     1>项目“C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\mips_sim\mips_sim.vcxproj”在节点 2 上(Rebuild 个目标)。
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /nologo /W3 /WX- /O2 /Ot /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /MDd /GS- /fp:precise /Zc:wchar_t /Zc:forScope- /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt mips_sim.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /nologo /W3 /WX- /Ox /Ot /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /MDd /GS- /fp:precise /Zc:wchar_t /Zc:forScope- /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt mips_sim.cpp
      1>cl : 命令行 warning D9035: “Zc:forScope-”选项已否决，并将在将来的版本中移除
      1>cl : 命令行 warning D9007: “/Gm”需要“/Zi 或 /ZI”；选项被忽略
          mips_sim.cpp
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\Debug\mips_sim.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\Debug\mips_sim.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\Debug\mips_sim.lib" /MACHINE:X86 Debug\mips_sim.obj
          mips_sim.vcxproj -> C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\Debug\mips_sim.exe
-     1>已完成生成项目“C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\mips_sim\mips_sim.vcxproj”(Build 个目标)的操作。
+     1>已完成生成项目“C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\mips_sim\mips_sim\mips_sim.vcxproj”(Rebuild 个目标)的操作。
 
 已成功生成。
 
-已用时间 00:00:02.75
+已用时间 00:00:02.84

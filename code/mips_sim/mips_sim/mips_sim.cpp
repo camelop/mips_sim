@@ -326,9 +326,9 @@ int main(int argc, char* argv[]) {
 	}
 	ifstream mipsIn(inMipsLocation);
 #endif
-	//ifstream mipsIn("function_test-huyuncong.s");
+	//ifstream mipsIn("array_test1-mahaojun.s");
 	ifstream mipsIn(argv[1]);
-	//ifstream iData("function_test-huyuncong.in");
+	//ifstream iData("array_test1-mahaojun.in");
 	//ifstream dataIn(inDataLocation);
 	//ofstream dataOut("output.txt");
 	
