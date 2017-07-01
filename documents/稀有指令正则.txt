@@ -1,0 +1,1 @@
+(lh|addiu|mulu|divu|xor|xoru|negu|rem|remu|seq|sge|sgt|sne|bne |blez|bltz|jalr| b | j |nop)

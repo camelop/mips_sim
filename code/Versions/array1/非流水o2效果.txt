@@ -1,0 +1,146 @@
+TEST  lvalue2-5110379024-wuhang
+passed
+used time:
+0.16011905670166016
+
+TEST  gcd-5090379042-jiaxiao
+passed
+used time:
+0.25868654251098633
+
+TEST  manyarguments-5100379110-daibo
+passed
+used time:
+0.23116397857666016
+
+TEST  tak-5090379042-jiaxiao
+passed
+used time:
+19.671623945236206
+
+TEST  builtin-5140519064-youyurong
+failed
+used time:
+0.16963815689086914
+
+TEST  array_test1-mahaojun
+passed
+used time:
+0.18264222145080566
+
+TEST  pi-5090379042-jiaxiao
+passed
+used time:
+96.89919686317444
+
+TEST  class_test-mahaojun
+passed
+used time:
+0.10957670211791992
+
+TEST  hanoi-5100379110-daibo
+failed
+used time:
+0.9487400054931641
+
+TEST  twinprime-5090379042-jiaxiao
+passed
+used time:
+13.923552989959717
+
+TEST  array_test2-mahaojun
+passed
+used time:
+0.1065833568572998
+
+TEST  basicopt1-5100309127-hetianxing
+passed
+used time:
+7.2069642543792725
+
+TEST  qsort-5100379110-daibo
+passed
+used time:
+35.153794050216675
+
+TEST  statement_test-huyuncong
+passed
+used time:
+0.12610888481140137
+
+TEST  hashmap-5100309127-hetianxing
+passed
+used time:
+5.570245742797852
+
+TEST  queens-5100379110-daibo
+passed
+used time:
+9.20361614227295
+
+TEST  multiarray-5100309153-yanghuan
+passed
+used time:
+0.1559007167816162
+
+TEST  function_test-huyuncong
+failed
+used time:
+0.10943269729614258
+
+TEST  heapsort-5100379110-daibo
+failed
+used time:
+0.10745668411254883
+
+TEST  horse-5100309153-yanghuan
+passed
+used time:
+107.8348867893219
+
+TEST  superloop-5090379042-jiaxiao
+passed
+used time:
+41.61553478240967
+
+TEST  maxflow-5100379110-daibo
+passed
+used time:
+212.44418954849243
+
+TEST  horse3-5100309153-yanghuan
+passed
+used time:
+112.08849692344666
+
+TEST  prime-5100309153-yanghuan
+passed
+used time:
+29.70240330696106
+
+TEST  bulgarian-5110379024-wuhang
+passed
+used time:
+10.738270998001099
+
+TEST  magic-5100309153-yanghuan
+passed
+used time:
+12.984176635742188
+
+TEST  expr-5110309085-jintianxing
+passed
+used time:
+0.2599451541900635
+
+TEST  horse2-5100309153-yanghuan
+passed
+used time:
+95.35756468772888
+
+TEST  spill2-5100379110-daibo
+passed
+used time:
+0.6436989307403564
+
+请按任意键继续. . .
