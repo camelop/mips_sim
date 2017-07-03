@@ -5,8 +5,8 @@
 #include <map>
 #include <set>
 
-//#define PYTHON_TEST
-#define littleround_profile
+#define PYTHON_TEST
+//#define littleround_profile
 
 class Line;
 class Data; class Instruction; class Label; class Frame;
