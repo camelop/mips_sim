@@ -111,8 +111,7 @@ public:
 		prepare();
 	}
 	~Program() {
-	//	for (auto i : lines) delete i;
-		//多线程其他线程不允许delete，待解决
+		for (auto i : lines) delete i;
 	}
 
 	Line* parse(string& line, unsigned long long &mem) {
