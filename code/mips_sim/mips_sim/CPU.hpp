@@ -1,6 +1,10 @@
 #ifndef littleround_MIPS_CPU
 #define littleround_MIPS_CPU
+
+#ifdef littleround_profile
 #include <windows.h>
+#endif
+
 #include<iostream>
 #include<iomanip>
 #include <fstream>
@@ -205,7 +209,7 @@ class CPU {
 			pc_ID_IF = (int)temp.location;
 			ID_IF = true;
 		}
-
+		//fill reg 
 		if (ins != "sb" && ins != "sh" && ins != "sw") {
 			for (Brick& i : data_ID_EX) if (isLocked(i)) return;
 		}
@@ -214,6 +218,7 @@ class CPU {
 				if (isLocked(data_ID_EX[0])) return;
 			}
 		}
+		
 		//add locks
 		if (wb_sheet.count(ins)) {
 			if (des_ID_EX.type == Brick::Brick_type::reg) {
@@ -226,7 +231,6 @@ class CPU {
 				}
 			}
 		}
-		//fill reg 
 		for (Brick& i : data_ID_EX) {
 			if (i.type != Brick::Brick_type::reg) continue;
 			Brick temp;
@@ -270,6 +274,7 @@ class CPU {
 
 				++regLock[idReg["$v0"]];
 			}
+			if (code == 10) isOn = false;
 			if (code == 17) {
 				Brick reg_a0("$a0", reg);
 				if (isLocked(reg_a0)) return;
@@ -277,6 +282,8 @@ class CPU {
 				temp.type = Brick::Brick_type::imm;
 				temp << reg_a0;
 				data_ID_EX.push_back(temp);
+
+				isOn = false;
 			}
 		}
 		ID_READY = false;
@@ -308,7 +315,7 @@ class CPU {
 	Brick des_ID_EX;
 
 	void EX(const Program& pg) {
-		if (!ID_EX || EX_IF || EX_MEM) return;
+		if (!ID_EX || EX_IF) return;
 
 		//control instructions
 		string& ins = ins_ID_EX;
@@ -459,33 +466,44 @@ class CPU {
 			if (des_MEM_WB.location == 5 || des_MEM_WB.location == 9) {
 				des_MEM_WB.fromString("$v0", reg);
 				des_MEM_WB << data_MEM_WB;
-				--regLock[des_MEM_WB.countReg(reg)];
+				regLock[des_MEM_WB.countReg(reg)] -= 1;
 			}
 			if (des_MEM_WB.location == 10 || des_MEM_WB.location == 17) {
-				isOn = false;
 				working = false;
-				return;
 			}
 		}
 		if (wb_sheet.count(ins_MEM_WB)) {
 			des_MEM_WB << data_MEM_WB;
 			if (des_MEM_WB.type == Brick::Brick_type::lohi) {
-				--regLock[32];
-				--regLock[33];
+				regLock[32] -= 1;
+				regLock[33] -= 1;
 			} else 
-				--regLock[des_MEM_WB.countReg(reg)];
+				regLock[des_MEM_WB.countReg(reg)] -= 1;
 		}
 		MEM_WB = false;
 	}
 
 	vector<char*> memRef;
-// multi-thread
-	int c_IF, c_ID, c_EX, c_MEM, c_WB;
-	void f_IF(const Program& pg) { while (isOn) { IF(pg); ++c_IF; } return; }
-	void f_ID(const Program& pg) { while (isOn) { ID(pg); ++c_ID; } return; }
-	void f_EX(const Program& pg) { while (isOn) { EX(pg); ++c_EX; } return; }
-	void f_MEM(const Program& pg) { while (isOn) { MEM(pg); ++c_MEM; } return; }
-	void f_WB(const Program& pg) { while (isOn) { WB(pg); ++c_WB; } return; }
+
+#ifdef littleround_profile
+// Profiler
+	char nwP;
+	void print_P() {
+		double W, E, D, F, M;
+		W = E = D = F = M = 0;
+		while (true) {
+			char cc = nwP;
+			if (cc == 'W') ++W;
+			if (cc == 'E') ++E;
+			if (cc == 'D') ++D;
+			if (cc == 'F') ++F;
+			if (cc == 'M') ++M;
+			double ALL = W + E + D + F + M;
+			cout << endl << W * 100 / ALL << '\t' << E * 100 / ALL << '\t' << D * 100 / ALL << '\t' << F * 100 / ALL << '\t' << M * 100 / ALL << endl;
+			Sleep(20);
+		}
+	}
+#endif
 
 public:
 	CPU(istream& I, ostream& O) :I(I), O(O) {
@@ -541,59 +559,60 @@ public:
 		MEM_WB = false;
 		nopCounter = 0;
 
-		c_IF = 0; c_ID = 0; c_EX = 0; c_MEM = 0; c_WB = 0;
-
 		isOn = true;
 		working = true;
 		//ofstream fout("routine.txt");
-		/*
+
+#ifdef littleround_profile
+		thread cpuMonitor(&CPU::print_P, this);
+		cpuMonitor.detach();
+#endif
 		while (working) {
+#ifndef littleround_profile
 		//	report();
 		//	cout << pc + 1 << endl;
 //#define CHECK_RAM
-		{
-		//not pipeline version
-			report();
-			ID(pg); 
-			report();
+		/*
 			IF(pg);
 			//report();
-			//report();
-			report();
-			EX(pg);
-			report();
 			ID(pg);
 			//report();
+			EX(pg);
 			//report();
+			MEM(pg);
 			//report();
-		} 
+			WB(pg);
+			//report();
+		*/
 		//	report();
-		report();
-		WB(pg);
+			WB(pg);
 		//	report();
-		report();
-		MEM(pg);
+			MEM(pg);
 		//	report();
-		report();
-		EX(pg);
+			EX(pg);
 		//	report();
-		//	ID(pg);
+			ID(pg);
 		//  report();
-		report();
-		IF(pg);
-			
+			IF(pg);
+#endif
+#ifdef littleround_profile
+			//  report();
+			nwP = 'W';
+			WB(pg);
+			//	report();
+			nwP = 'M';
+			MEM(pg);
+			//	report();
+			nwP = 'E';
+			EX(pg);
+			//	report();
+			nwP = 'D';
+			ID(pg);
+			//  report();
+			nwP = 'F';
+			IF(pg);
+#endif
 		}
-	*/
-		thread t_IF(&CPU::f_IF, this, pg);
-		thread t_ID(&CPU::f_ID, this, pg);
-		thread t_EX(&CPU::f_EX, this, pg);
-		thread t_MEM(&CPU::f_MEM, this, pg);
-		thread t_WB(&CPU::f_WB, this, pg);
-		t_IF.detach();
-		t_ID.detach();
-		t_EX.detach();
-		t_MEM.detach();
-		t_WB.join();
 		//fout.close();
 		return (*findReg(idReg["$a0"]));
 	}
@@ -601,9 +620,6 @@ public:
 	void report() {
 		system("cls");
 		cerr << "\n--------------------CPU STATE---------------------\n";
-		cerr << "IF: " << c_IF << '\t' << "ID: " << c_ID << '\n';
-		cerr << "EX: " << c_EX << '\t' << "MEM:" << c_MEM << '\n';
-		cerr << "WB: " << c_WB << '\n';
 		cerr << "pc->" << pc << '\t'<<"hp->"<<hp<<'\t'<<"reg->"<<(int)reg<<'\n';
 		cerr << "in Function : " << debugInWhichFunction << '\n';
 		for (int i = 0; i < 34; i++) {

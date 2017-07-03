@@ -4,9 +4,22 @@
 #include <string>
 #include <map>
 #include <set>
+
+//#define PYTHON_TEST
+#define littleround_profile
+
+class Line;
+class Data; class Instruction; class Label; class Frame;
+class Program;
+class Brick;
+class CPU;
+class Op;
+
 #include "line.hpp"
 #include "program.hpp"
+#include "brick.hpp"
 #include "CPU.hpp"
+#include "op.hpp"
 
 #define MIPS_TEST1
 
@@ -326,11 +339,17 @@ int main(int argc, char* argv[]) {
 	}
 	ifstream mipsIn(inMipsLocation);
 #endif
-	ifstream mipsIn("builtin-5140519064-youyurong.s");
-	//ifstream mipsIn(argv[1]);
-	ifstream iData("builtin-5140519064-youyurong.in");
-	//ifstream dataIn(inDataLocation);
-	//ofstream dataOut("output.txt");
+
+
+#ifdef PYTHON_TEST
+	ifstream mipsIn(argv[1]);
+	istream& iData(cin);
+#endif
+#ifndef PYTHON_TEST
+	string pgName = "pi-5090379042-jiaxiao";
+	ifstream mipsIn(pgName + ".s");
+	ifstream iData(pgName+".in");
+#endif
 	
 	Program pg(mipsIn);
 	CPU myCPU(iData, cout);
