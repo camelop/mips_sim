@@ -117,7 +117,7 @@ class CPU {
 		}
 		else {
 			++pc;
-			if (pc >= (int)pg.lines.size()) throw (-1);//invalid program
+			if (pc >= (int)pg.lines.size()) O << "RE" << endl;//invalid program
 		}
 	}
 

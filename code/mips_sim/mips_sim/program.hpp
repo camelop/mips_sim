@@ -302,7 +302,7 @@ public:
 			if (line->type == Line::Line_type::tLabel) {
 				Label* nw = dynamic_cast<Label*> (line);
 				if (nw->name == "") continue;
-				if (labelId.count(nw->name)) throw(-1); //reduplicated label
+				if (labelId.count(nw->name)) cerr << "Reduplicated label" << endl; //reduplicated label
 				labelId[nw->name] = nw->id;
 			}
 		}
@@ -311,20 +311,20 @@ public:
 			if (line->type == Line::Line_type::tInstruction) {
 				Instruction* nw = dynamic_cast<Instruction*> (line);
 				if (label_1_sheet.count(nw->ins)) {
-					if (!labelId.count(nw->arg[0])) throw(-1); //undefined label
+					if (!labelId.count(nw->arg[0])) cerr << "Undefined label" << endl; //undefined label
 					nw->arg[0] = fromNumberToString(labelId[nw->arg[0]]);
 				}
 				if (label_2_sheet.count(nw->ins)) {
-					if (!labelId.count(nw->arg[1])) throw(-1); //undefined label
+					if (!labelId.count(nw->arg[1])) cerr << "Undefined label" << endl; //undefined label
 					nw->arg[1] = fromNumberToString(labelId[nw->arg[1]]);
 				}
 				if (label_3_sheet.count(nw->ins)) {
-					if (!labelId.count(nw->arg[2])) throw(-1); //undefined label
+					if (!labelId.count(nw->arg[2])) cerr << "Undefined label" << endl; //undefined label
 					nw->arg[2] = fromNumberToString(labelId[nw->arg[2]]);
 				}
 				if (label_2_check_sheet.count(nw->ins)) {
 					if (nw->arg[1].find('(') != string::npos) continue;
-					if (!labelId.count(nw->arg[1])) throw(-1); //undefined label
+					if (!labelId.count(nw->arg[1])) cerr << "Undefined label" << endl; //undefined label
 					nw->arg[1] = fromNumberToString(labelId[nw->arg[1]]);
 				}
 			}

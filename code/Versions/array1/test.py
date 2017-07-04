@@ -18,7 +18,7 @@ cases = [
     "array_test2-mahaojun",
     "basicopt1-5100309127-hetianxing",
     "qsort-5100379110-daibo",
-#    "string_test-huyuncong",
+    "string_test-huyuncong",
     "statement_test-huyuncong",
     "hashmap-5100309127-hetianxing",
     "queens-5100379110-daibo",
@@ -85,18 +85,30 @@ def main():
         end   = len(cases)
 
     end = min(len(cases), end)
+    cntF = 0
+    cntP = 0
+    allTime = 0
     for i in range(start, end):
         print ("TEST  %-40s" % cases[i])
         nw = time.time()
         sys.stdout.flush()
         if not testCase(cases[i]):
             print("failed")
+            cntF+=1
         else:
             print("passed")
+            cntP+=1  
         print("used time: ")
+        allTime += time.time()-nw
         print(str(time.time()-nw))
         print("")
         os.remove(cases[i] + '.out')
+    print ("passed : ")
+    print (str(cntP))
+    print ("failed : ")
+    print (str(cntF))
+    print ("used Time : ")
+    print (str(allTime))
 
 if __name__ == '__main__':
     main()
