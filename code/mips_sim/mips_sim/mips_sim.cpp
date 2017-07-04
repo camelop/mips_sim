@@ -7,6 +7,7 @@
 
 //#define PYTHON_TEST
 #define littleround_profile
+#define littleround_multithread
 
 class Line;
 class Data; class Instruction; class Label; class Frame;

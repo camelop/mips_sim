@@ -315,7 +315,7 @@ class CPU {
 	Brick des_ID_EX;
 
 	void EX(const Program& pg) {
-		if (!ID_EX || EX_IF) return;
+		if (!ID_EX || EX_IF || EX_MEM) return;
 
 		//control instructions
 		string& ins = ins_ID_EX;
@@ -504,6 +504,14 @@ class CPU {
 		}
 	}
 #endif
+#ifdef littleround_multithread
+	int c_IF, c_ID, c_EX, c_MEM, c_WB;
+	void f_IF(const Program& pg) { while (isOn) { IF(pg); ++c_IF; } return; }
+	void f_ID(const Program& pg) { while (isOn) { ID(pg); ++c_ID; } return; }
+	void f_EX(const Program& pg) { while (isOn) { EX(pg); ++c_EX; } return; }
+	void f_MEM(const Program& pg) { while (isOn) { MEM(pg); ++c_MEM; } return; }
+	void f_WB(const Program& pg) { while (isOn) { WB(pg); ++c_WB; report(); } return; }
+#endif
 
 public:
 	CPU(istream& I, ostream& O) :I(I), O(O) {
@@ -562,7 +570,18 @@ public:
 		isOn = true;
 		working = true;
 		//ofstream fout("routine.txt");
-
+#ifdef littleround_multithread
+		thread t_IF(&CPU::f_IF, this, pg);
+		thread t_ID(&CPU::f_ID, this, pg);
+		thread t_EX(&CPU::f_EX, this, pg);
+		thread t_MEM(&CPU::f_MEM, this, pg);
+		thread t_WB(&CPU::f_WB, this, pg);
+		t_IF.detach();
+		t_ID.detach();
+		t_EX.detach();
+		t_MEM.detach();
+		t_WB.join();
+#else
 #ifdef littleround_profile
 		thread cpuMonitor(&CPU::print_P, this);
 		cpuMonitor.detach();
@@ -614,6 +633,8 @@ public:
 #endif
 		}
 		//fout.close();
+#endif
+
 		return (*findReg(idReg["$a0"]));
 	}
 
