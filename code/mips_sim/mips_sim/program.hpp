@@ -13,6 +13,8 @@ extern set<string> label_2_sheet;
 extern set<string> label_2_check_sheet;
 extern set<string> label_3_sheet;
 
+extern map<string, int> toCode;
+
 int fromStringToNumber(const string& s) {
 	int ten = 1;
 	int f = 1;

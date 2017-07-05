@@ -32,10 +32,7 @@
     <ClInclude Include="CPU.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="brick.hpp">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="op.hpp">
+    <ClInclude Include="Pack.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

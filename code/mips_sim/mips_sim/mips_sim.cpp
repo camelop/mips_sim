@@ -6,8 +6,8 @@
 #include <set>
 
 //#define PYTHON_TEST
-#define littleround_profile
-#define littleround_multithread
+//#define littleround_profile
+//#define littleround_multithread
 
 class Line;
 class Data; class Instruction; class Label; class Frame;
@@ -32,95 +32,65 @@ set<string> label_1_sheet;
 set<string> label_2_sheet;
 set<string> label_2_check_sheet;
 set<string> label_3_sheet;
-set<string> type_o_i_i_sheet;
-set<string> type_o_i_sheet;
-set<string> type_ls_sheet;
-set<string> wb_sheet;
 
 map<string, int> idReg;
+map<string, int> toCode;
 
-extern const int Memory;
+extern const int Memory = 4 * 1024 * 1024;
 
 void init() {
-	//init wb_sheet;
-	wb_sheet.insert("la");
-	wb_sheet.insert("lb");
-	wb_sheet.insert("lh");
-	wb_sheet.insert("lw");
-	wb_sheet.insert("add");
-	wb_sheet.insert("addu");
-	wb_sheet.insert("addiu");
-	wb_sheet.insert("sub");
-	wb_sheet.insert("subu");
-	wb_sheet.insert("mul");
-	wb_sheet.insert("mulu");
-	wb_sheet.insert("div");
-	wb_sheet.insert("divu");
-	wb_sheet.insert("xor");
-	wb_sheet.insert("xoru");
-	wb_sheet.insert("neg");
-	wb_sheet.insert("negu");
-	wb_sheet.insert("rem");
-	wb_sheet.insert("remu");
-	wb_sheet.insert("li");
-	wb_sheet.insert("seq");
-	wb_sheet.insert("sge");
-	wb_sheet.insert("sgt");
-	wb_sheet.insert("sle");
-	wb_sheet.insert("slt");
-	wb_sheet.insert("sne");
-	wb_sheet.insert("jal");
-	wb_sheet.insert("jalr");
-	wb_sheet.insert("move");
-	wb_sheet.insert("mfhi");
-	wb_sheet.insert("mflo");
-	
-
-	//init type_ls_sheet
-	type_ls_sheet.insert("la");
-	type_ls_sheet.insert("lb");
-	type_ls_sheet.insert("lh");
-	type_ls_sheet.insert("lw");
-	type_ls_sheet.insert("sb");
-	type_ls_sheet.insert("sh");
-	type_ls_sheet.insert("sw");
-
-	//init type_o_i_i_sheet
-	type_o_i_i_sheet.insert("add");
-	type_o_i_i_sheet.insert("addu");
-	type_o_i_i_sheet.insert("addiu");
-	type_o_i_i_sheet.insert("sub");
-	type_o_i_i_sheet.insert("subu");
-	type_o_i_i_sheet.insert("div");
-	type_o_i_i_sheet.insert("xor");
-	type_o_i_i_sheet.insert("xoru");
-	type_o_i_i_sheet.insert("rem");
-	type_o_i_i_sheet.insert("remu");
-	type_o_i_i_sheet.insert("seq");
-	type_o_i_i_sheet.insert("sge");
-	type_o_i_i_sheet.insert("sgt");
-	type_o_i_i_sheet.insert("sle");
-	type_o_i_i_sheet.insert("slt");
-	type_o_i_i_sheet.insert("sne");
-	
-	type_o_i_i_sheet.insert("mul");
-	type_o_i_i_sheet.insert("mulu");
-	type_o_i_i_sheet.insert("div");
-	type_o_i_i_sheet.insert("divu");
-
-
-	//init type_o_i_sheet;
-	type_o_i_sheet.insert("neg");
-	type_o_i_sheet.insert("negu");
-	type_o_i_sheet.insert("li");
-	type_o_i_sheet.insert("move");
-	type_o_i_sheet.insert("mfhi");
-	type_o_i_sheet.insert("mflo");
-
-	type_o_i_sheet.insert("mul");
-	type_o_i_sheet.insert("mulu");
-	type_o_i_sheet.insert("div");
-	type_o_i_sheet.insert("divu");
+	//init toCode
+	toCode["syscall"]=1;
+	toCode["lb"] = 2;
+	toCode["lh"] = 3;
+	toCode["lw"] = 4;
+	toCode["add"] = 5;
+	toCode["addiu"] = 6;
+	toCode["addu"] = 7;
+	toCode["div"] = 8;
+	toCode["divu"] = 9;
+	toCode["la"] = 10;
+	toCode["li"] = 11;
+	toCode["mul"] = 12;
+	toCode["mulu"] = 13;
+	toCode["neg"] = 14;
+	toCode["negu"] = 15;
+	toCode["rem"] = 16;
+	toCode["remu"] = 17;
+	toCode["seq"] = 18;
+	toCode["sge"] = 19;
+	toCode["sgt"] = 20;
+	toCode["sle"] = 21;
+	toCode["slt"] = 22;
+	toCode["sne"] = 23;
+	toCode["sub"] = 24;
+	toCode["subu"] = 25;
+	toCode["xor"] = 26;
+	toCode["xoru"] = 27;
+	toCode["jalr"] = 28;
+	toCode["mfhi"] = 29;
+	toCode["mflo"] = 30;
+	toCode["move"] = 31;
+	toCode["jal"] = 32;
+	toCode["sb"] = 33;
+	toCode["sh"] = 34;
+	toCode["sw"] = 35;
+	toCode["beq"] = 36;
+	toCode["beqz"] = 37;
+	toCode["bge"] = 38;
+	toCode["bgez"] = 39;
+	toCode["bgt"] = 40;
+	toCode["bgtz"] = 41;
+	toCode["ble"] = 42;
+	toCode["blez"] = 43;
+	toCode["blt"] = 44;
+	toCode["bltz"] = 45;
+	toCode["bne"] = 46;
+	toCode["bnez"] = 47;
+	toCode["jr"] = 48;
+	toCode["b"] = 49;
+	toCode["j"] = 50;
+	toCode["nop"] = 51;
 
 	//init idReg
 	idReg["$0"] = 0;
