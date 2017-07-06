@@ -8,6 +8,7 @@
 //#define PYTHON_TEST
 //#define littleround_profile
 //#define littleround_multithread
+//#define littleround_strict
 
 class Line;
 class Data; class Instruction; class Label; class Frame;
@@ -314,7 +315,7 @@ int main(int argc, char* argv[]) {
 	istream& iData(cin);
 #endif
 #ifndef PYTHON_TEST
-	string pgName = "array_test1-mahaojun";
+	string pgName = "bulgarian-5110379024-wuhang";
 	ifstream mipsIn(pgName + ".s");
 	ifstream iData(pgName+".in");
 #endif

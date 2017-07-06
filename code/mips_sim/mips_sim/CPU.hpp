@@ -37,7 +37,7 @@ public:
 	bool IF(Pack* &p) {
 		if (p == NULL) return false;
 		Pack& nw(*p);
-		if (JR_LOCK) return false;
+		if (JR_LOCK) return (nw.stage > 1);
 		if (nop > 0) {
 			--nop;
 			return false;
@@ -246,7 +246,8 @@ public:
 		}
 		case 48:
 		{
-			if (regLock[nw.reg[0]]) return false;
+			if (regLock[nw.reg[0]]) 
+				return false;
 			nw.label = reg[nw.reg[0]];
 			nw.stage = 31; //special number
 			return true;
@@ -269,9 +270,14 @@ public:
 			if (!nw.isLabel) nw.location = nw.location + nw.arg[0];
 			break;
 		}
-		case 5:case 6:case 7:
+		case 5:
 		{
 			nw.arg[0] = nw.arg[0] + nw.arg[1];
+			break;
+		}
+		case 6:case 7:
+		{
+			nw.arg[0] = (unsigned int)nw.arg[0] + (unsigned int)nw.arg[1];
 			break;
 		}
 		case 8:
@@ -294,7 +300,7 @@ public:
 			else {
 				int temp;
 				temp = (unsigned int)nw.arg[0] / (unsigned int)nw.arg[1];
-				nw.arg[1] = (unsigned int)nw.arg[0] % nw.arg[1];
+				nw.arg[1] = (unsigned int)nw.arg[0] % (unsigned int)nw.arg[1];
 				nw.arg[0] = temp;
 			}
 			break;
@@ -367,9 +373,12 @@ public:
 			nw.arg[0] = (nw.arg[0] != nw.arg[1]) ? 1 : 0;
 			break;
 		}
-		case 24:case 25: 
-		{
+		case 24: {
 			nw.arg[0] = nw.arg[0] - nw.arg[1];
+			break;
+		}
+		case 25: {
+			nw.arg[0] = (unsigned int)nw.arg[0] - (unsigned int)nw.arg[1];
 			break;
 		}
 		case 26:case 27: 
@@ -579,6 +588,9 @@ public:
 		return true;
 	}
  
+#ifdef littleround_strict
+	int strict_charge;
+#endif
 	void dispatch(const vector<Pack>& vp) {
 		Pack use[5];
 		bool b_IF, b_ID, b_EX, b_MEM, b_WB;
@@ -587,15 +599,19 @@ public:
 		while (vp[pc].code == 0) {
 			++pc;
 			if (pc > (int)vp.size()) {
-				O << "Invalid Program!" << endl;
-				return;
+				/*O << "Invalid Program!" << endl;
+				return;*/
+				--pc;
 			}
 		}
 		p_IF = use; p_ID = NULL; p_EX = NULL;
 		p_MEM = NULL; p_WB = NULL;
 		(*p_IF) = vp[pc];
+
+#ifdef littleround_strict
+		strict_charge = 0;
+#endif
 		
-		int debug_a = 0;
 		while (true) {
 #ifdef littleround_multiThread
 			future<bool> f_IF = async(launch::async, &CPU::IF, this, p_IF);
@@ -621,6 +637,7 @@ public:
 			if (p_EX != NULL && p_EX->stage == 41) {
 				p_EX->stage = 4;
 				p_IF = NULL; p_ID = NULL;
+				b_IF = false; b_ID = false;
 				JR_LOCK = false;
 				pc = p_EX->label;
 			}
@@ -638,6 +655,7 @@ public:
 			if (p_ID != NULL && p_ID->stage == 31) {
 				p_ID->stage = 3;
 				pc = p_ID->label;
+				p_IF = NULL; b_IF = false;
 				JR_LOCK = false;
 			}
 			//Ret
@@ -654,41 +672,29 @@ public:
 				p_ID = p_IF; p_IF = NULL;
 			}
 			if (p_IF == NULL && isOn) {
-				++debug_a;
-				if (debug_a == 6) {
-					/*cout << pc << endl;
-				
-					system("cls");
-					cout << hp << endl;
-					for (int i = 0; i < hp; i++) {
-						cout << (int)ram[i] << ' ';
-						if (i % 20 == 19) cout << endl;
-					}*/
-					
-					debug_a = 0;
-					for (int i = 0; i < 34; i++) {
-						if (regLock[i]) {
-							cout << "Bang!" << endl;
-						}
-					};
-					if (!isOn) { continue; }
-					for (int i = 0; i < 5; i++) {
-						if (use + i == p_WB) continue;
-						if (use + i == p_EX) continue;
-						if (use + i == p_ID) continue;
-						if (use + i == p_MEM) continue;
-						p_IF = use + i;
-						break;
-					}
-					while (vp[pc].code == 0) {
-						++pc;
-						if (pc > (int)vp.size()) {
-							O << "Invalid Program!" << endl;
-							return;
-						}
-					}
-					(*p_IF) = vp[pc];
+				if (!isOn) { continue; }
+#ifdef littleround_strict
+				++strict_charge;
+				if (strict_charge < 6) continue;
+				strict_charge = 0;
+#endif
+				for (int i = 0; i < 5; i++) {
+					if (use + i == p_WB) continue;
+					if (use + i == p_EX) continue;
+					if (use + i == p_ID) continue;
+					if (use + i == p_MEM) continue;
+					p_IF = use + i;
+					break;
 				}
+				while (vp[pc].code == 0) {
+					++pc;
+					if (pc > (int)vp.size()) {
+						/*O << "Invalid Program!" << endl;
+						return;*/
+						--pc;
+					}
+				}
+				(*p_IF) = vp[pc];
 			}
 
 			//isOn
@@ -710,6 +716,7 @@ public:
 		JR_LOCK = false;
 		isOn = true;
 		Ret = -1;
+
 		//init pg
 		vector<Pack> vp; vp.clear();
 		for (auto& i : pg.lines) {
