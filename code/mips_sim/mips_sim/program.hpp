@@ -2,6 +2,8 @@
 #define littleround_MIPS_program
 
 #include <vector>
+#include <set>
+#include <map>
 #include <iostream>
 #include "line.hpp"
 using namespace std;

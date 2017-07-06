@@ -12,15 +12,12 @@
 class Line;
 class Data; class Instruction; class Label; class Frame;
 class Program;
-class Brick;
 class CPU;
-class Op;
+class Pack;
 
 #include "line.hpp"
 #include "program.hpp"
-#include "brick.hpp"
 #include "CPU.hpp"
-#include "op.hpp"
 
 #define MIPS_TEST1
 
@@ -317,7 +314,7 @@ int main(int argc, char* argv[]) {
 	istream& iData(cin);
 #endif
 #ifndef PYTHON_TEST
-	string pgName = "pi-5090379042-jiaxiao";
+	string pgName = "array_test1-mahaojun";
 	ifstream mipsIn(pgName + ".s");
 	ifstream iData(pgName+".in");
 #endif
