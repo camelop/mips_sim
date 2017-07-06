@@ -3,7 +3,9 @@
 #include<iostream>
 #include<cstring>
 #include<vector>
+#ifdef littleround_multithread
 #include<future>
+#endif
 #include<map>
 
 
@@ -34,7 +36,7 @@ public:
 
 	int nop;
 	bool JR_LOCK;
-	bool IF(Pack* &p) {
+	bool IF(Pack* p) {
 		if (p == NULL) return false;
 		Pack& nw(*p);
 		if (JR_LOCK) return (nw.stage > 1);
@@ -95,7 +97,7 @@ public:
 
 	bool isOn;
 
-	bool ID(Pack* &p) {
+	bool ID(Pack* p) {
 		if (p == NULL) return false;
 		Pack& nw(*p);
 		nw.lock = 100; //wow
@@ -258,7 +260,7 @@ public:
 		return true;
 	}
 
-	bool EX(Pack* &p) {
+	bool EX(Pack* p) {
 		if (p == NULL) return false;
 		Pack& nw(*p);
 		if (nw.stage > 3) return true;
@@ -440,7 +442,7 @@ public:
 		return true;
 	}
 
-	bool MEM(Pack* &p) {
+	bool MEM(Pack* p) {
 		if (p == NULL) return false;
 		Pack& nw(*p);
 		if (nw.stage > 4) return true;
@@ -509,7 +511,7 @@ public:
 	}
 
 	int Ret;
-	bool WB(Pack* &p) {
+	bool WB(Pack* p) {
 		if (p == NULL) return false;
 		Pack& nw(*p);
 		if (nw.stage > 5) return true;
@@ -613,7 +615,7 @@ public:
 #endif
 		
 		while (true) {
-#ifdef littleround_multiThread
+#ifdef littleround_multithread
 			future<bool> f_IF = async(launch::async, &CPU::IF, this, p_IF);
 			future<bool> f_ID = async(launch::async, &CPU::ID, this, p_ID);
 			future<bool> f_EX = async(launch::async, &CPU::EX, this, p_EX);
@@ -632,6 +634,7 @@ public:
 			b_WB = WB(p_WB);
 #endif
 
+			if (b_WB) p_WB = NULL;
 			//do some trick to avoid mutex
 			//stage41-wrong fetch
 			if (p_EX != NULL && p_EX->stage == 41) {
