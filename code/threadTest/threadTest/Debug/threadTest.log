@@ -1,13 +1,18 @@
-﻿生成启动时间为 2017-6-29 1:01:47。
+﻿生成启动时间为 2017-7-6 23:16:28。
      1>项目“C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\threadTest\threadTest\threadTest.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt threadTest.cpp
          threadTest.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\threadTest\Debug\threadTest.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\threadTest\Debug\threadTest.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\threadTest\Debug\threadTest.lib" /MACHINE:X86 Debug\threadTest.obj
-         threadTest.vcxproj -> C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\threadTest\Debug\threadTest.exe
-     1>已完成生成项目“C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\threadTest\threadTest\threadTest.vcxproj”(Build 个目标)的操作。
+     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\threadtest\threadtest\threadtest.cpp(8): error C4430: 缺少类型说明符 - 假定为 int。注意: C++ 不支持默认 int
+     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\threadtest\threadtest\threadtest.cpp(8): error C2146: 语法错误: 缺少“;”(在标识符“x”的前面)
+     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\threadtest\threadtest\threadtest.cpp(12): error C2065: “x”: 未声明的标识符
+     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\threadtest\threadtest\threadtest.cpp(12): error C2228: “.lock”的左边必须有类/结构/联合
+         c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\threadtest\threadtest\threadtest.cpp(12): note: 类型是“unknown-type”
+     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\threadtest\threadtest\threadtest.cpp(21): error C2065: “x”: 未声明的标识符
+     1>c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\threadtest\threadtest\threadtest.cpp(21): error C2228: “.unlock”的左边必须有类/结构/联合
+         c:\users\lxy98\documents\visual studio 2015\projects\mips_sim\code\threadtest\threadtest\threadtest.cpp(21): note: 类型是“unknown-type”
+     1>已完成生成项目“C:\Users\lxy98\Documents\Visual Studio 2015\Projects\mips_sim\code\threadTest\threadTest\threadTest.vcxproj”(Build 个目标)的操作 - 失败。
 
-已成功生成。
+生成失败。
 
-已用时间 00:00:01.20
+已用时间 00:00:03.05

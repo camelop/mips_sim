@@ -5,9 +5,9 @@
 #include <map>
 #include <set>
 
-//#define PYTHON_TEST
+#define PYTHON_TEST
 //#define littleround_profile
-#define littleround_multithread
+//#define littleround_multithread
 //#define littleround_strict
 
 class Line;
@@ -315,7 +315,7 @@ int main(int argc, char* argv[]) {
 	istream& iData(cin);
 #endif
 #ifndef PYTHON_TEST
-	string pgName = "bulgarian-5110379024-wuhang";
+	string pgName = "tak-5090379042-jiaxiao";
 	ifstream mipsIn(pgName + ".s");
 	ifstream iData(pgName+".in");
 #endif

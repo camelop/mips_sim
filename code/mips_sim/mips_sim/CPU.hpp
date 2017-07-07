@@ -5,6 +5,8 @@
 #include<vector>
 #ifdef littleround_multithread
 #include<future>
+#include<mutex>
+#include<thread>
 #endif
 #include<map>
 
@@ -36,6 +38,48 @@ public:
 
 	int nop;
 	bool JR_LOCK;
+
+	char his[20011]; //20011 is prime
+	bool buf[20000];
+	int buf_pc[20000];
+	int bufb, bufe;
+	int c_confirm;
+	int c_punish;
+	bool funny;
+	bool consult(int nw) {
+		/*buf_pc[bufe] = nw;
+		if (his[nw] > 0) buf[bufe++] = true; else buf[bufe++] = false;
+		return buf[bufe - 1];*/
+		funny = !funny;
+		return funny;
+	}
+
+	void punish() {
+		++c_punish;
+		/*int& nw = buf_pc[bufb];
+		if (buf[bufb]) {
+			--his[nw];
+		}
+		else {
+			++his[nw];
+		}
+		++bufb;
+		if (bufb == bufe) bufb = bufe = 0;*/
+	}
+
+	void confirm() {
+		++c_confirm;
+		/*int& nw = buf_pc[bufb];
+		if (buf[bufb]) {
+			if (his[nw] != 2) ++his[nw];
+		}
+		else {
+			if (his[nw] != -1) --his[nw];
+		}
+		++bufb;
+		if (bufb == bufe) bufb = bufe = 0;*/
+	}
+
 	bool IF(Pack* p) {
 		if (p == NULL) return false;
 		Pack& nw(*p);
@@ -60,7 +104,7 @@ public:
 		case 36:case 38:case 40:case 42:case 44:case 46:
 		case 37:case 39:case 41:case 43:case 45:case 47:
 		{
-			nw.judge = false;
+			nw.judge = consult(pc);
 			if (nw.judge) {
 				int temp = nw.label;
 				nw.label = pc + 1;
@@ -392,48 +436,60 @@ public:
 		{
 			if (nw.judge != (nw.arg[0] == nw.arg[1])) {
 				nw.stage = 41;
+				punish();
 				return true;
 			}
+			else confirm();
 			break;
 		}
 		case 38:case 39:
 		{
 			if (nw.judge != (nw.arg[0] >= nw.arg[1])) {
 				nw.stage = 41;
+				punish();
 				return true;
 			}
+			else confirm();
 			break;
 		}
 		case 40:case 41:
 		{
 			if (nw.judge != (nw.arg[0] > nw.arg[1])) {
 				nw.stage = 41;
+				punish();
 				return true;
 			}
+			else confirm();
 			break;
 		}
 		case 42:case 43:
 		{
 			if (nw.judge != (nw.arg[0] <= nw.arg[1])) {
 				nw.stage = 41;
+				punish();
 				return true;
 			}
+			else confirm();
 			break;
 		}
 		case 44:case 45:
 		{
 			if (nw.judge != (nw.arg[0] < nw.arg[1])) {
 				nw.stage = 41;
+				punish();
 				return true;
 			}
+			else confirm();
 			break;
 		}
 		case 46:case 47:
 		{
 			if (nw.judge != (nw.arg[0] != nw.arg[1])) {
 				nw.stage = 41;
+				punish();
 				return true;
 			}
+			else confirm();
 			break;
 		}
 
@@ -593,6 +649,10 @@ public:
 #ifdef littleround_strict
 	int strict_charge;
 #endif
+
+#ifdef littleround_multithread
+	//to fill
+#endif
 	void dispatch(const vector<Pack>& vp) {
 		Pack use[5];
 		bool b_IF, b_ID, b_EX, b_MEM, b_WB;
@@ -613,7 +673,7 @@ public:
 #ifdef littleround_strict
 		strict_charge = 0;
 #endif
-		
+		int cyc = 0;
 		while (true) {
 #ifdef littleround_multithread
 			future<bool> f_IF = async(launch::async, &CPU::IF, this, p_IF);
@@ -632,8 +692,8 @@ public:
 			b_EX = EX(p_EX);
 			b_MEM = MEM(p_MEM);
 			b_WB = WB(p_WB);
-#endif
-
+#endif		
+			++cyc;
 			if (b_WB) p_WB = NULL;
 			//do some trick to avoid mutex
 			//stage41-wrong fetch
@@ -676,6 +736,7 @@ public:
 			}
 			if (p_IF == NULL && isOn) {
 				if (!isOn) { continue; }
+				//if (cyc % 10000 == 0) cout << cyc << endl;
 #ifdef littleround_strict
 				++strict_charge;
 				if (strict_charge < 6) continue;
@@ -703,7 +764,9 @@ public:
 			//isOn
 			if (!isOn) p_IF = NULL;
 			//out
-			if (Ret > -1) return;
+			if (Ret > -1) {
+				return;
+			}
 		}
 	}
 
@@ -711,6 +774,9 @@ public:
 		pc = pg.entry;
 		memset(ram, 0, Memory);
 		memset(reg, 0, sizeof(reg));
+		memset(his, 0, sizeof(his));
+		memset(buf, 0, sizeof(buf));
+		bufb = bufe = 0;
 		for (int i = 0; i < 34; i++) regLock[i] = 0;
 		reg[29] = (int)(ram + Memory);
 		hp = 0;
@@ -720,6 +786,8 @@ public:
 		isOn = true;
 		Ret = -1;
 
+		c_confirm = c_punish = 0;
+		funny = 0;
 		//init pg
 		vector<Pack> vp; vp.clear();
 		for (auto& i : pg.lines) {
@@ -873,6 +941,8 @@ public:
 			}
 		}
 		dispatch(vp);
+		ofstream ac("ac.out");
+		ac << "Predict accuracy: " << 1.0*c_confirm / (1.0*c_confirm + 1.0*c_punish) << endl;
 		return Ret;
 	}
 };
