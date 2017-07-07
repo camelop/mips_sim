@@ -7,6 +7,7 @@
 #include<future>
 #include<mutex>
 #include<thread>
+#include<atomic>
 #endif
 #include<map>
 
@@ -613,15 +614,59 @@ public:
 #endif
 
 #ifdef littleround_multithread
-	//to fill
+	bool b_IF, b_ID, b_EX, b_MEM, b_WB;
+	Pack *p_IF, *p_ID, *p_EX, *p_MEM, *p_WB;
+	atomic_bool a_IF, a_ID, a_EX, a_MEM, a_WB;
+	void f_IF() {
+		while (Ret < 0) {
+			while (a_IF) this_thread::yield();
+			b_IF = IF(p_IF);
+			a_IF = false;
+		}
+	}
+	void f_ID() {
+		while (Ret < 0) {
+			while (a_ID) this_thread::yield();
+			b_ID = ID(p_ID);
+			a_ID = false;
+	}
+	}
+	void f_EX() {
+		while (Ret < 0) {
+			while (a_EX) this_thread::yield();
+			b_EX = EX(p_EX);
+			a_EX = false;
+		}
+	}
+	void f_MEM() {
+		while (Ret < 0) {
+			while (a_MEM) this_thread::yield();
+			b_MEM = MEM(p_MEM);
+			a_MEM = false;
+		}
+	}
+	void f_WB() {
+		while (Ret < 0) {
+			while (a_WB) this_thread::yield();
+			b_WB = WB(p_WB);
+			a_WB = false;
+		}
+	}
 #endif
 	int cyc;
 
 	void dispatch(const vector<Pack>& vp) {
 		Pack use[5];
+#ifndef littleround_multithread
 		bool b_IF, b_ID, b_EX, b_MEM, b_WB;
 		Pack *p_IF, *p_ID, *p_EX, *p_MEM, *p_WB;
-
+#else
+		thread t_IF(&CPU::f_IF, this);
+		thread t_ID(&CPU::f_ID, this);
+		thread t_EX(&CPU::f_EX, this);
+		thread t_MEM(&CPU::f_MEM, this);
+		thread t_WB(&CPU::f_WB, this);
+#endif
 		while (vp[pc].code == 0) {
 			++pc;
 			if (pc > (int)vp.size()) {
@@ -639,7 +684,7 @@ public:
 #endif
 		while (true) {
 #ifdef littleround_multithread
-			future<bool> f_IF = async(launch::async, &CPU::IF, this, p_IF);
+			/*future<bool> f_IF = async(launch::async, &CPU::IF, this, p_IF);
 			future<bool> f_ID = async(launch::async, &CPU::ID, this, p_ID);
 			future<bool> f_EX = async(launch::async, &CPU::EX, this, p_EX);
 			future<bool> f_MEM = async(launch::async, &CPU::MEM, this, p_MEM);
@@ -648,7 +693,13 @@ public:
 			b_ID = f_ID.get();
 			b_EX = f_EX.get();
 			b_MEM = f_MEM.get();
-			b_WB = f_WB.get();
+			b_WB = f_WB.get();*/
+			a_IF = false; a_ID = false; a_EX = false; a_MEM = false; a_WB = false;
+			while (!a_IF) this_thread::yield();
+			while (!a_ID) this_thread::yield();
+			while (!a_EX) this_thread::yield();
+			while (!a_MEM) this_thread::yield();
+			while (!a_WB) this_thread::yield();
 #else
   			b_IF = IF(p_IF);
 			b_ID = ID(p_ID);
