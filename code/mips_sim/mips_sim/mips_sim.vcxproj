@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="CPU.hpp" />
     <ClInclude Include="line.hpp" />
+    <ClInclude Include="oracle.hpp" />
     <ClInclude Include="Pack.hpp" />
     <ClInclude Include="program.hpp" />
   </ItemGroup>
