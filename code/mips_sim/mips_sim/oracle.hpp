@@ -48,7 +48,7 @@ private:
 		/*ofstream fout("ac_.out", ios::app | ios::out);
 		fout << "¡Ì\n";
 		fout.close();*/
-		++c_confirm;
+	/*	++c_confirm;
 		int& nw = buff_pc[s];
 		if (buff_choice[s]) {
 			++his[nw][state[nw]];
@@ -61,14 +61,14 @@ private:
 			state[nw] <<= 1;
 			state[nw] &= 15;
 		}
-		++s; s &= 127;
+		++s; s &= 127;*/
 	}
 	void punish() {
 
 		/*ofstream fout("ac_.out", ios::app | ios::out);
 		fout <<"x\n";
 		fout.close();*/
-
+/*
 		++c_punish;
 		int& nw = buff_pc[s];
 		if (!buff_choice[s]) {
@@ -82,21 +82,22 @@ private:
 			state[nw] <<= 1;
 			state[nw] &= 15;
 		}
-		++s; s &= 127;
+		++s; s &= 127;*/
 	}
-	bool consult(int nw) {
+	bool consult(int nw) {/*
 		++c_consult;
 		nw %= HashSize;
 		buff_pc[t] = nw;
 		buff_choice[t] = his[nw][state[nw]].prefer();
 		++t; t &= 127;
-		if (t == s - 1) cerr << "Oracle BUFFER NOT ENOUGH" << endl;
+		if (t == s - 1) cerr << "Oracle BUFFER NOT ENOUGH" << endl;*/
 
 		/*ofstream fout("ac_.out",ios::app | ios::out);
 		fout << nw << ' ' << buff_choice[t - 1] << '\n';
 		fout.close();*/
 
-		return buff_choice[t-1];
+		return false;
+		//return buff_choice[t-1];
 	}
 	friend ostream& operator << (ostream& oo, const Oracle oracle) {
 		//oo << oracle.c_confirm << ' ' << oracle.c_punish << endl;

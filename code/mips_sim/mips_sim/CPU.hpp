@@ -621,35 +621,36 @@ public:
 		while (Ret < 0) {
 			while (a_IF) this_thread::yield();
 			b_IF = IF(p_IF);
-			a_IF = false;
+			a_IF = true;
 		}
 	}
 	void f_ID() {
 		while (Ret < 0) {
 			while (a_ID) this_thread::yield();
 			b_ID = ID(p_ID);
-			a_ID = false;
-	}
+			a_ID = true;
+		}
 	}
 	void f_EX() {
 		while (Ret < 0) {
 			while (a_EX) this_thread::yield();
 			b_EX = EX(p_EX);
-			a_EX = false;
+			a_EX = true;
 		}
 	}
 	void f_MEM() {
 		while (Ret < 0) {
 			while (a_MEM) this_thread::yield();
 			b_MEM = MEM(p_MEM);
-			a_MEM = false;
+			a_MEM = true;
 		}
+
 	}
 	void f_WB() {
 		while (Ret < 0) {
 			while (a_WB) this_thread::yield();
 			b_WB = WB(p_WB);
-			a_WB = false;
+			a_WB = true;
 		}
 	}
 #endif
@@ -698,11 +699,12 @@ public:
 			b_MEM = f_MEM.get();
 			b_WB = f_WB.get();*/
 			a_IF = false; a_ID = false; a_EX = false; a_MEM = false; a_WB = false;
-			while (!a_IF) {}
-			while (!a_ID) {}
-			while (!a_EX) {}
-			while (!a_MEM) {}
-			while (!a_WB) {}
+			while (!a_IF) this_thread::yield();
+			while (!a_ID) this_thread::yield();
+			while (!a_EX) this_thread::yield();
+			while (!a_MEM) this_thread::yield();
+			while (!a_WB) this_thread::yield();
+
 #else
   			b_IF = IF(p_IF);
 			b_ID = ID(p_ID);
@@ -755,7 +757,7 @@ public:
 			}
 			if (p_IF == NULL && isOn) {
 				if (!isOn) { continue; }
-				cout << pc << endl;
+				//cout << pc << endl;
 #ifdef littleround_strict
 				++strict_charge;
 				if (strict_charge < 6) continue;
@@ -784,6 +786,13 @@ public:
 			if (!isOn) p_IF = NULL;
 			//out
 			if (Ret > -1) {
+				p_IF = p_ID = p_EX = p_MEM = p_WB = NULL;
+				a_IF = false; a_ID = false; a_EX = false; a_MEM = false; a_WB = false;
+				t_IF.join();
+				t_ID.join();
+				t_EX.join();
+				t_MEM.join();
+				t_WB.join();
 				return;
 			}
 		}

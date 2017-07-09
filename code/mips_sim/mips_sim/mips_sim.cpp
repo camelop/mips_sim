@@ -5,7 +5,7 @@
 #include <map>
 #include <set>
 
-//#define PYTHON_TEST
+#define PYTHON_TEST
 //#define littleround_profile
 #define littleround_multithread
 //#define littleround_strict
@@ -316,7 +316,7 @@ int main(int argc, char* argv[]) {
 	istream& iData(cin);
 #endif
 #ifndef PYTHON_TEST
-	string pgName = "array_test1-mahaojun";
+	string pgName = "qsort-5100379110-daibo";
 	ifstream mipsIn(pgName + ".s");
 	ifstream iData(pgName+".in");
 #endif
