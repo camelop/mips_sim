@@ -316,7 +316,7 @@ int main(int argc, char* argv[]) {
 	istream& iData(cin);
 #endif
 #ifndef PYTHON_TEST
-	string pgName = "horse2-5100309153-yanghuan";
+	string pgName = "array_test1-mahaojun";
 	ifstream mipsIn(pgName + ".s");
 	ifstream iData(pgName+".in");
 #endif

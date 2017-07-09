@@ -616,7 +616,7 @@ public:
 #ifdef littleround_multithread
 	bool b_IF, b_ID, b_EX, b_MEM, b_WB;
 	Pack *p_IF, *p_ID, *p_EX, *p_MEM, *p_WB;
-	atomic_bool a_IF, a_ID, a_EX, a_MEM, a_WB;
+	bool a_IF, a_ID, a_EX, a_MEM, a_WB;
 	void f_IF() {
 		while (Ret < 0) {
 			while (a_IF) this_thread::yield();
@@ -661,6 +661,9 @@ public:
 		bool b_IF, b_ID, b_EX, b_MEM, b_WB;
 		Pack *p_IF, *p_ID, *p_EX, *p_MEM, *p_WB;
 #else
+		a_IF = true; a_ID = true; 
+		a_EX = true; a_MEM = true; 
+		a_WB = true;
 		thread t_IF(&CPU::f_IF, this);
 		thread t_ID(&CPU::f_ID, this);
 		thread t_EX(&CPU::f_EX, this);
@@ -695,11 +698,11 @@ public:
 			b_MEM = f_MEM.get();
 			b_WB = f_WB.get();*/
 			a_IF = false; a_ID = false; a_EX = false; a_MEM = false; a_WB = false;
-			while (!a_IF) this_thread::yield();
-			while (!a_ID) this_thread::yield();
-			while (!a_EX) this_thread::yield();
-			while (!a_MEM) this_thread::yield();
-			while (!a_WB) this_thread::yield();
+			while (!a_IF) {}
+			while (!a_ID) {}
+			while (!a_EX) {}
+			while (!a_MEM) {}
+			while (!a_WB) {}
 #else
   			b_IF = IF(p_IF);
 			b_ID = ID(p_ID);
@@ -752,6 +755,7 @@ public:
 			}
 			if (p_IF == NULL && isOn) {
 				if (!isOn) { continue; }
+				cout << pc << endl;
 #ifdef littleround_strict
 				++strict_charge;
 				if (strict_charge < 6) continue;
