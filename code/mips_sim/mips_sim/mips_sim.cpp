@@ -7,7 +7,7 @@
 
 //#define PYTHON_TEST
 //#define littleround_profile
-//#define littleround_multithread
+#define littleround_multithread
 //#define littleround_strict
 
 class Line;
